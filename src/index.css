@@ -14,23 +14,55 @@ p {
 }
 
 .toolbar {
-  padding: 20px;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
   background: #333;
   color: #fff;
+  padding: 20px;
 }
 
 .page {
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    overflow-y: auto;
+    height: calc(100vh - 60px);
+    overflow-y: auto;
+    padding-top: 60px;
 }
+
+.container-toggle {
+  position: absolute;
+  height: 20px;
+  top: -10px;
+  right: 0;
+}
+
 
 .container {
     display: flex;
-    border: 1px dashed #e4dada;
+    border: 2px dashed #e4dada;
     border-radius: 5px;
     margin: 15px;
     position: relative;
+    transition: all 2.s ease;
+}
+
+.container:hover {
+  border-style: solid;
+}
+
+.container:hover .container-toggle {
+  background: yellow;
+}
+
+.container > .container:hover {
+  border-color: red;
+}
+
+.container > .container:hover .container-toggle {
+  background: red;
 }
 
 .container:before {
@@ -47,19 +79,21 @@ p {
     flex-direction: column
 }
 
-.container-toggle {
-  position: absolute;
-  height: 20px;
-  top: -10px;
-  right: 0;
+.box:hover .controls {
+  display: block;
 }
 
 .box {
-    flex: 1;
-    border: 1px solid #ccc;
     border-radius: 5px;
-    padding: 15px;
+    border: 1px solid #ccc;
+    flex: 1;
     margin: 15px;
+    padding: 15px;
+}
+
+.controls {
+  position: absolute;
+  display: none;
 }
 
 .flex-1 {
@@ -72,4 +106,16 @@ p {
 
 .flex-3 {
     flex: 3;
+}
+
+.flex-4 {
+    flex: 4;
+}
+
+.flex-5 {
+    flex: 5;
+}
+
+.flex-6 {
+    flex: 6;
 }

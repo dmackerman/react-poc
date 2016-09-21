@@ -39,6 +39,7 @@
   }, {
     "layout": "column",
     "id": 3,
+    "flex": 1,
     "children": [{
       "id": 200,
       "panel_title": "Total Traffic, bps",
