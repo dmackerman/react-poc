@@ -1,0 +1,52 @@
+[{
+  "layout": "row",
+  "id": 1,
+  "flex": 1,
+  "children": [{
+    "id": 166,
+    "panel_title": "Total Traffic, bps",
+    "flex": 1
+  }, {
+    "id": 167,
+    "panel_title": "Source Countries",
+    "flex": 1
+  }, {
+    "layout": "column",
+    "id": 4,
+    "flex": 2,
+    "children": [{
+      "id": 169,
+      "panel_title": "Dest ASNs",
+      "flex": 1
+    }, {
+      "id": 190,
+      "panel_title": "Source ASNs",
+      "flex": 1
+    }]
+  }]
+}, {
+  "layout": "column",
+  "id": 2,
+  "flex": 1,
+  "children": [{
+    "id": 168,
+    "panel_title": "Total Traffic, bps",
+    "flex": 2
+  }, {
+    "id": 169,
+    "panel_title": "Source Countries",
+    "flex": 1
+  }, {
+    "layout": "column",
+    "id": 3,
+    "children": [{
+      "id": 200,
+      "panel_title": "Total Traffic, bps",
+      "flex": 1
+    }, {
+      "id": 201,
+      "panel_title": "Dest AS Source AS",
+      "flex": 3
+    }]
+  }]
+}]
