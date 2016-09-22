@@ -1,64 +1,29 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
 import DevTools from 'mobx-react-devtools';
-import { observer } from 'mobx-react';
-
-// import { DragDropContext } from 'react-dnd';
-// import HTML5Backend from 'react-dnd-html5-backend';
-import { DashboardContainer, DashboardItem, DashboardToolbar } from './components';
+import { BrowserRouter, Match, Miss } from 'react-router'
+import { Dashboard, DashboardToolbar, About, NotFound } from './components';
 import DashboardStore from './store/DashboardStore';
 
+
 class App extends Component {
-    constructor(props) {
-      super(props);
-      this.renderContainer = this.renderContainer.bind(this);
-    }
-
     componentDidMount() {
-        DashboardStore.loadData();
-    }
-
-    renderContainer(container) {
-        return (
-            <DashboardContainer
-                key={container.id}
-                store={DashboardStore}
-                container={container}>
-                    {this.renderChildren(container)}
-            </DashboardContainer>
-        );
-    }
-
-    renderChildren(container) {
-        return container.children.map(child => {
-            if (child.children) {
-                return this.renderContainer(child)
-            }
-            return (
-                <DashboardItem
-                    key={child.id}
-                    store={DashboardStore}
-                    item={child}
-                />
-            )
-        });
+        console.log('App mount')
     }
 
     render() {
-        const layout = DashboardStore.data.map(this.renderContainer);
-        console.log(layout);
-
         return (
-            <div>
-                <DevTools />
-                <DashboardToolbar store={DashboardStore} />
-                <div className="page">
-                    {layout}
+            <BrowserRouter>
+                <div>
+                    <DevTools />
+                    <DashboardToolbar store={DashboardStore} />
+                    <Match exactly pattern="/" component={Dashboard} />
+                    <Match pattern="/about" component={About} />
+                    <Miss component={NotFound}/>
                 </div>
-            </div>
+            </BrowserRouter>
         );
     }
 }
 
-// export default DragDropContext(HTML5Backend)(App);
-export default observer(App);
+export default App;

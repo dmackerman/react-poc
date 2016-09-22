@@ -1,10 +1,13 @@
 import { extendObservable } from 'mobx';
+import uuid from 'uuid-v4';
 
 export class Item {
   constructor(json) {
+      console.log(uuid());
     this.type = 'item';
+    this.id = json.id || uuid();
+
     extendObservable(this, {
-      id: json.id,
       flex: json.flex,
       panel_title: json.panel_title
     });
@@ -41,6 +44,10 @@ export class Container {
         });
       }
     });
+  }
+
+  addItem(item) {
+      this.children.push(item);
   }
 
   toggleLayout() {

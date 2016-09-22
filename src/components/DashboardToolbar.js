@@ -1,12 +1,13 @@
 import React from 'react';
 import { observer } from "mobx-react";
+import { Link } from 'react-router'
 
 const DashboardToolbar = ({ store }) => {
     console.log(store);
     return (
         <div className="toolbar">
-            I am toolbar
-            Are we editting? {store.editting ? 'YES': 'NO' }
+            <Link className="btn" to="/">Dashboard</Link>
+            <Link className="btn" to="/about">About</Link>
         </div>
     );
 }
