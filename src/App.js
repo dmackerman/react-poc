@@ -1,5 +1,6 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
+import DevTools from 'mobx-react-devtools';
 import { observer } from 'mobx-react';
 
 // import { DragDropContext } from 'react-dnd';
@@ -49,6 +50,7 @@ class App extends Component {
 
         return (
             <div>
+                <DevTools />
                 <DashboardToolbar store={DashboardStore} />
                 <div className="page">
                     {layout}

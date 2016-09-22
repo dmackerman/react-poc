@@ -99,6 +99,10 @@ p {
     padding: 15px;
 }
 
+.container .box:first-of-type {
+  margin-right: 0;
+}
+
 .controls {
   position: absolute;
   display: none;

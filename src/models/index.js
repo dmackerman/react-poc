@@ -2,6 +2,7 @@ import { extendObservable } from 'mobx';
 
 export class Item {
   constructor(json) {
+    this.type = 'item';
     extendObservable(this, {
       id: json.id,
       flex: json.flex,
@@ -16,19 +17,29 @@ export class Item {
 
 export class Container {
   constructor(json) {
+    this.type = 'container';
 
     const children = json.children.map(child => {
-        if (child.children) {
-            return new Container(child)
-        }
-        return new Item(child);
+      if (child.children) {
+        return new Container(child)
+      }
+      return new Item(child);
     });
 
     extendObservable(this, {
       id: json.id,
       flex: json.flex,
       children: children,
-      layout: json.layout
+      layout: json.layout,
+      flex_children: function() {
+        return this.children.map(child => {
+          return {
+            id: child.id,
+            flex: child.flex,
+            type: child.type
+          }
+        });
+      }
     });
   }
 

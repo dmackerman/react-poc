@@ -26,7 +26,6 @@ import {observer} from "mobx-react";
 // }
 
 const DashboardItem = ({ item, store }) => {
-    console.log(item);
     const { flex, panel_title, id } = item;
     // const { isDragging, connectDragSource } = props;
     const boxClass = classNames({

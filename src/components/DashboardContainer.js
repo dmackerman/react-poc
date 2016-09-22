@@ -74,6 +74,8 @@ const DashboardContainer = ({ container, store, children }) => {
     // These props are injected by React DnD,
     // as defined by your `collect` function above:
     // const { isOver, canDrop, connectDropTarget } = props;
+    //
+    console.log(container.flex_children);
 
     const containerClass = classNames({
         'container': true,
