@@ -1,0 +1,50 @@
+{
+  "1": {
+    "layout": "row",
+    "flex": 1,
+    "children": {
+      "166": {
+        "panel_title": "Total Traffic, bps",
+        "flex": 1,
+        "order": 1
+      },
+      "167": {
+        "panel_title": "Source Countries",
+        "flex": 1,
+        "order": 2
+      }
+    }
+  },
+  "2": {
+    "layout": "column",
+    "flex": 1,
+    "children": {
+      "170": {
+        "panel_title": "Total Traffic, bps",
+        "flex": 1,
+        "order": 2
+      },
+      "171": {
+        "panel_title": "Source Countries",
+        "flex": 1,
+        "order": 1
+      }
+    }
+  },
+  "3": {
+    "layout": "row",
+    "flex": 1,
+    "children": {
+      "170": {
+        "panel_title": "Total Traffic, bps",
+        "flex": 1,
+        "order": 1
+      },
+      "171": {
+        "panel_title": "Dest AS Source AS",
+        "flex": 1,
+        "order": 2
+      }
+    }
+  }
+}

@@ -4,9 +4,17 @@
     padding: 0;
 }
 
+body {
+  background: #F6F7F8;
+}
+
 h4, p {
     margin: 0;
     font-size: 12px;
+}
+
+h4 {
+  color: #4C9ADE;
 }
 
 p {
@@ -18,7 +26,7 @@ p {
   top: 0;
   right: 0;
   left: 0;
-  background: #333;
+  background: #383944;
   color: #fff;
   padding: 20px;
 }
