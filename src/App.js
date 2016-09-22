@@ -1,6 +1,5 @@
 import _ from 'lodash';
 import React, { Component } from 'react';
-import update from 'react/lib/update';
 import data from './data/dashboard.json';
 
 import { DragDropContext } from 'react-dnd';

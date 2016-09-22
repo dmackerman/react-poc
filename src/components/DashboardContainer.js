@@ -2,6 +2,7 @@ import React from 'react';
 // import { findDOMNode } from 'react-dom';
 import classNames from 'classnames';
 import { DropTarget } from 'react-dnd';
+import {observer} from "mobx-react";
 
 const dashboardContainerTarget = {
   canDrop(props, monitor) {
@@ -91,4 +92,4 @@ const DashboardContainer = (props) => {
     )
 }
 
-export default DropTarget('dashboardItem', dashboardContainerTarget, collect)(DashboardContainer);
+export default DropTarget('dashboardItem', dashboardContainerTarget, collect)(observer(DashboardContainer));

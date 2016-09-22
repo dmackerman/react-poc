@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import classNames from 'classnames';
 import { DragSource } from 'react-dnd';
+import {observer} from "mobx-react";
 
 /**
  * Implements the drag source contract.
@@ -51,4 +52,4 @@ DashboardItem.propTypes = {
 };
 
 // Export the wrapped component:
-export default DragSource('dashboardItem', cardSource, collect)(DashboardItem);
+export default DragSource('dashboardItem', cardSource, collect)(observer(DashboardItem));
