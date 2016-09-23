@@ -39,6 +39,11 @@ const DashboardItem = (props) => {
         [`flex-${flex}`]: true
     });
 
+    const controlsClass = classNames({
+        'controls': true,
+        'display-none': loading
+    });
+
     const isLoading = loading ? <LoadingIndicator /> : '';
 
     return connectDragPreview(
@@ -51,10 +56,19 @@ const DashboardItem = (props) => {
             )}
             <h4>{panel_title} (ID: {id}) {isDragging && ` (and I am being dragged from ${container.id} now)`}</h4>
             <p>flex: {flex}</p>
-            <div className="controls">
-                <button onClick={() => props.item.increaseFlex()}>Increase Flex</button>
-                <button onClick={() => props.item.removeItem(container)}>Delete</button>
-                <button onClick={() => props.item.logDetails()}>Log Details</button>
+            <div className={controlsClass}>
+                <button className="btn btn-primary h6"
+                    onClick={() => props.item.increaseFlex()}>
+                    Increase Flex
+                </button>
+                <button className="btn red h6"
+                    onClick={() => props.item.removeItem(container)}>
+                    Delete
+                </button>
+                <button className="btn h6"
+                    onClick={() => props.item.logDetails()}>
+                    Log Details
+                </button>
             </div>
         </div>
     );

@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import 'ace-css/css/ace.min.css'
 import React, { Component } from 'react';
 import DevTools from 'mobx-react-devtools';
 import { BrowserRouter, Match, Miss } from 'react-router'
