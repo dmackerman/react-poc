@@ -1,10 +1,13 @@
 import { observable, computed, action, map, toJS } from 'mobx';
+import { random } from 'lodash';
 import Item from './Item';
+import ItemPlaceholder from './ItemPlaceholder';
 
 class Container {
   @observable flex;
   @observable children;
   @observable layout;
+  @observable placeholder;
 
   constructor(data) {
 
@@ -23,6 +26,8 @@ class Container {
     this.flex = data.flex;
     this.children = children;
     this.layout = data.layout;
+
+    this.placeholder = new ItemPlaceholder();
   }
 
   @computed get numChildren() {
@@ -38,18 +43,32 @@ class Container {
       return !this.children.has(item.id);
   }
 
+  @action showItemPlaceholder(position) {
+      console.log('showItemPlaceholder');
+      this.placeholder.order = position;
+    //   this.children.set(item.id, { id: 2 });
+  }
+
+  // check if the item exists in this container
+  @action existsInContainer(item) {
+      return this.children.has(item.id);
+  }
+
   // moves an item into this container, will figure out position later
   @action moveItem(item, oldContainer) {
       this.children.set(item.id, item);
       oldContainer.children.delete(item.id);
+      item.added = true;
   }
 
   @action toggleLayout() {
     this.layout = this.layout === 'column' ? 'row' : 'column';
   }
 
-  @action removeItem(itemId) {
-    this.children.delete(itemId);
+  @action removeItem(item) {
+    setTimeout(() => {
+        this.children.delete(item.id);
+    }, 250);
   }
 
   @action increaseFlex() {

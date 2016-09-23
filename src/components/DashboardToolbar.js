@@ -18,6 +18,9 @@ const DashboardToolbar = ({ store }) => {
             <button className={editModeButtonClass}
                 onClick={() => store.toggleEditMode()}>{editText}</button>
             <div className="flex-auto"></div>
+            <button className="btn"
+                onClick={() => store.logStoreData()}>Log Serialized Data
+            </button>
             <Link className="btn" to="/about">About</Link>
         </div>
     );

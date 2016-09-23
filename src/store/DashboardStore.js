@@ -1,4 +1,4 @@
-import { observable, action, map } from 'mobx';
+import { observable, action, map, toJS } from 'mobx';
 import dashboardHashData from '../data/dashboard-hash.json';
 import { Container } from '../models/';
 
@@ -18,6 +18,11 @@ class DashboardStore {
 
   @action toggleEditMode() {
       this.editting = !this.editting;
+  }
+
+  @action logStoreData() {
+      const data = toJS(this.data);
+      console.log(data, JSON.stringify(data));
   }
 }
 

@@ -21,21 +21,27 @@
   },
   "2": {
     "id": 2,
-    "layout": "column",
+    "layout": "row",
     "order": 2,
     "flex": 1,
     "children": {
       "170": {
         "id": 170,
-        "panel_title": "Total Traffic, bps",
+        "panel_title": "Dest Port 80 Traffic",
         "flex": 1,
-        "order": 2
+        "order": 1
       },
       "171": {
         "id": 171,
-        "panel_title": "Source Countries",
+        "panel_title": "Source ASNs",
         "flex": 1,
-        "order": 1
+        "order": 2
+      },
+      "172": {
+        "id": 172,
+        "panel_title": "Dest ASNs",
+        "flex": 1,
+        "order": 3
       }
     }
   },
@@ -47,7 +53,7 @@
     "children": {
       "180": {
         "id": 180,
-        "panel_title": "Total Traffic, bps",
+        "panel_title": "Top Geography_dst, src_geo_city by max in + out Bits/s",
         "flex": 1,
         "order": 1
       },

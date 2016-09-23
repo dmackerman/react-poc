@@ -5,6 +5,9 @@ import DashboardToolbar from './DashboardToolbar';
 import About from './About';
 import NotFound from './NotFound';
 import LoadingIndicator from './LoadingIndicator';
+import DashboardItemControls from './DashboardItemControls';
+import CustomDragLayer from './CustomDragLayer';
+import ItemPlaceholder from './ItemPlaceholder';
 
 export {
     Dashboard,
@@ -13,5 +16,8 @@ export {
     DashboardToolbar,
     About,
     NotFound,
-    LoadingIndicator
+    LoadingIndicator,
+    DashboardItemControls,
+    CustomDragLayer,
+    ItemPlaceholder
 };

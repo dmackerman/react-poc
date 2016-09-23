@@ -1,4 +1,4 @@
-import { observable, action, toJS } from 'mobx';
+import { observable, action, when, toJS } from 'mobx';
 import { random } from 'lodash';
 import uuid from 'uuid-v4';
 
@@ -6,17 +6,32 @@ class Item {
   @observable flex;
   @observable panel_title;
   @observable loading = true;
+  @observable order;
+  @observable added = false;
+  @observable removed = false;
 
   constructor(json) {
     this.type = 'item';
     this.id = json.id || uuid();
     this.flex = json.flex;
     this.panel_title = json.panel_title;
+    this.order = json.order;
+
+    when(
+        () => this.added,
+        () => this.clearAddedFlag()
+    );
 
     setTimeout(() => {
         this.loading = false;
-    }, random(1000, 3000))
+    }, random(500, 2000))
 
+  }
+
+  clearAddedFlag() {
+      setTimeout(() => {
+        this.added = false;
+      }, 500);
   }
 
   @action increaseFlex() {
@@ -24,7 +39,8 @@ class Item {
   }
 
   @action removeItem(container) {
-    container.removeItem(this.id);
+    this.removed = true;
+    container.removeItem(this);
   }
 
   @action logDetails(e) {

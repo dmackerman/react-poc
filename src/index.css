@@ -51,6 +51,10 @@ p {
     transition: all 2.s ease;
 }
 
+.container.droppable {
+  /*background: #CEE5CB;*/
+}
+
 .drag-handle {
   display: none;
   position: absolute;
@@ -91,10 +95,35 @@ p {
     background: #fff;
     border-radius: 5px;
     border: 1px solid #ccc;
-    flex: 1;
-    margin: 15px;
+    flex-grow: 1;
+    min-height: 250px;
+    margin: 10px;
     padding: 15px;
     position: relative;
+    transition: flex-grow 250ms ease;
+}
+
+/*.box.over:after {
+  content: '';
+  flex: 1;
+  background: #fff;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  flex: 1;
+  min-height: 250px;
+  margin: 10px;
+  padding: 15px;
+  position: relative;
+  transition: flex-grow 250ms ease;
+}*/
+
+.box.placeholder {
+  background: #eeffed;
+  border-style: dashed;
+}
+
+.box.dragging {
+  opacity: 0;
 }
 
 .loading-indicator {
@@ -127,6 +156,14 @@ p {
   margin-right: 0;
 }
 
+.container .box:last-of-type {
+  /*margin-left: 0;*/
+}
+
+.container.column .box:first-of-type {
+  margin-bottom: 0;
+}
+
 .controls {
   position: absolute;
   display: none;
@@ -134,25 +171,80 @@ p {
 }
 
 .flex-1 {
-    flex: 1;
+    flex-grow: 1;
 }
 
 .flex-2 {
-    flex: 2;
+    flex-grow: 2;
 }
 
 .flex-3 {
-    flex: 3;
+    flex-grow: 3;
 }
 
 .flex-4 {
-    flex: 4;
+    flex-grow: 4;
 }
 
 .flex-5 {
-    flex: 5;
+    flex-grow: 5;
 }
 
 .flex-6 {
-    flex: 6;
+    flex-grow: 6;
+}
+
+.removed {
+    flex-grow: 0.00001;
+}
+
+.new-item {
+  flex: .00001;
+  -webkit-animation: flexGrow 350ms ease forwards;
+  -o-animation: flexGrow 350ms ease forwards;
+  animation: flexGrow 350ms ease forwards;
+}
+
+.remove-item {
+  flex: 1;
+
+  -webkit-animation: flexShrink 350ms ease forwards;
+  -o-animation: flexShrink 350ms ease forwards;
+  animation: flexShrink 350ms ease forwards;
+}
+
+
+@-webkit-keyframes flexGrow {
+  to {
+    flex: 1;
+  }
+}
+@-o-keyframes flexGrow {
+  to {
+    flex: 1;
+  }
+}
+@keyframes flexGrow {
+  to {
+    flex: 1;
+  }
+}
+
+@-webkit-keyframes flexShrink {
+  to {
+    flex: .01;
+    flex: .00001;
+  }
+}
+@-o-keyframes flexShrink {
+  to {
+    flex: .01;
+    flex: .00001;
+  }
+}
+@keyframes flexShrink {
+  to {
+    flex: .01;
+    flex: .00001;
+  }
 }
