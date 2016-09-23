@@ -8,7 +8,7 @@ body {
 
 h4, p {
     margin: 0;
-    font-size: 12px;
+    font-size: 14px;
 }
 
 h4 {
@@ -55,16 +55,14 @@ p {
     transition: all 2.s ease;
 }
 
-.container:hover {
-  border-style: solid;
-}
-
-.container:hover .container-toggle {
-  background: yellow;
-}
-
-.container > .container:hover {
-  border-color: red;
+.drag-handle {
+  display: none;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
 }
 
 .container > .container:hover .container-toggle {
@@ -89,12 +87,44 @@ p {
   display: block;
 }
 
+.box:hover .drag-handle {
+  display: block;
+}
+
 .box {
+    background: #fff;
     border-radius: 5px;
     border: 1px solid #ccc;
     flex: 1;
     margin: 15px;
     padding: 15px;
+    position: relative;
+}
+
+.loading-indicator {
+  background: rgba(255, 255, 255, 0.65);
+  border-radius: 10px;
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 50px;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+}
+
+.loading-indicator-icon {
+  background: #4C9ADE;
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  top: 50%;
+  position: absolute;
+  left: 50%;
+  margin-top: -25px;
+  margin-left: -25px;
+  line-height: 70px;
 }
 
 .container .box:first-of-type {

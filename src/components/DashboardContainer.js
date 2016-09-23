@@ -1,62 +1,24 @@
 import React from 'react';
-// import { findDOMNode } from 'react-dom';
 import classNames from 'classnames';
 import { DropTarget } from 'react-dnd';
 import { observer } from "mobx-react";
 
 const dashboardContainerTarget = {
   canDrop(props, monitor) {
-    return true;
+    const {item} = monitor.getItem();
+    const {container} = props;
+    return container.canDropItem(item);
   },
 
-  hover(props, monitor, component) {
-    //   console.log(monitor);
-    // This is fired very often and lets you perform side effects
-    // in response to the hover. You can't handle enter and leave
-    // here—if you need them, put monitor.isOver() into collect() so you
-    // can just use componentWillReceiveProps() to handle enter/leave.
-
-    // You can access the coordinates if you need them
-    // const clientOffset = monitor.getClientOffset();
-    // const componentRect = findDOMNode(component).getBoundingClientRect();
-
-    // You can check whether we're over a nested drop target
-    const isJustOverThisOne = monitor.isOver({ shallow: true });
-    // console.log('isJustOverThisOne?', isJustOverThisOne)
-
-    // You will receive hover() even for items for which canDrop() is false
-    // const canDrop = monitor.canDrop();
-    const dragId = monitor.getItem().id;
-    const hoverId = props.id;
-
-    // Determine rectangle on screen
-    // const hoverBoundingRect = findDOMNode(component).getBoundingClientRect();
-
-    // // Get vertical middle
-    // const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-    //
-    // // Determine mouse position
-    // const clientOffset = monitor.getClientOffset();
-    //
-    // // Get pixels to the top
-    // const hoverClientY = clientOffset.y - hoverBoundingRect.top;
-
-    // console.log(hoverBoundingRect);
-
-    // console.log(dragId, hoverId);
-  },
+  hover(props, monitor, component) {},
 
   drop(props, monitor, component) {
-      const { container } = props;
-      if (monitor.didDrop()) {
-          return;
-      }
-      const item = monitor.getItem();
-      console.log(item);
-      
-      container.addItem(item);
-
-    //   props.moveItem(item, props)
+    const {container} = props;
+    if (monitor.didDrop()) {
+      return;
+    }
+    const {item, oldContainer} = monitor.getItem();
+    container.moveItem(item, oldContainer);
   }
 };
 
@@ -64,33 +26,41 @@ function collect(connect, monitor) {
   return {
     connectDropTarget: connect.dropTarget(),
     isOver: monitor.isOver(),
-    isOverCurrent: monitor.isOver({ shallow: true }),
+    isOverCurrent: monitor.isOver({
+      shallow: true
+    }),
     canDrop: monitor.canDrop(),
     itemType: monitor.getItemType()
   };
 }
 
 const DashboardContainer = (props) => {
-    const { container, children } = props;
+  const {container, children} = props;
 
-    // These props are injected by React DnD,
-    // as defined by your `collect` function above:
-    const { isOver, canDrop, connectDropTarget } = props;
+  // These props are injected by React DnD,
+  // as defined by your `collect` function above:
+  const {isOver, canDrop, connectDropTarget} = props;
 
-    const containerClass = classNames({
-        'container': true,
-        [`flex-${container.flex}`]: container.flex,
-        'column': container.layout === 'column'
-    });
+  const containerClass = classNames({
+    'container': true,
+    [`flex-${container.flex}`]: container.flex,
+    'column': container.layout === 'column',
+    'droppable': canDrop,
+    'over': isOver
+  });
 
-    return connectDropTarget(
-        <div className={containerClass}>
-            <button className="container-toggle" onClick={() => container.toggleLayout()}>
-                Toggle Layout
-            </button>
-            {children}
-        </div>
-    )
+  const containerStyles = {
+    order: container.order
+  };
+
+  return connectDropTarget(
+    <div className={containerClass} style={containerStyles}>
+        <button className="container-toggle" onClick={() => container.toggleLayout()}>
+            Toggle Layout
+        </button>
+        {children}
+    </div>
+  )
 }
 
 export default DropTarget('dashboardItem', dashboardContainerTarget, collect)(observer(DashboardContainer));

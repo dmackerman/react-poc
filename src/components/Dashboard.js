@@ -11,10 +11,6 @@ class Dashboard extends Component {
       this.renderContainer = this.renderContainer.bind(this);
     }
 
-    componentDidMount() {
-        DashboardStore.loadData();
-    }
-
     renderContainer(container) {
         return (
             <DashboardContainer
@@ -27,9 +23,10 @@ class Dashboard extends Component {
     }
 
     renderChildren(container) {
-        return container.children.map(child => {
+        const children = container.children.values();
+        return children.map(child => {
             if (child.children) {
-                return this.renderContainer(child)
+                return this.renderContainer(child);
             }
             return (
                 <DashboardItem
@@ -45,7 +42,9 @@ class Dashboard extends Component {
     render() {
         return (
             <div className="page">
-                {DashboardStore.data.map(this.renderContainer)}
+                {DashboardStore.data.values().map((val, key, map) => {
+                    return this.renderContainer(val);
+                })}
             </div>
         )
     }

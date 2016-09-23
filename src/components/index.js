@@ -4,6 +4,7 @@ import DashboardItem from './DashboardItem';
 import DashboardToolbar from './DashboardToolbar';
 import About from './About';
 import NotFound from './NotFound';
+import LoadingIndicator from './LoadingIndicator';
 
 export {
     Dashboard,
@@ -11,5 +12,6 @@ export {
     DashboardItem,
     DashboardToolbar,
     About,
-    NotFound
+    NotFound,
+    LoadingIndicator
 };

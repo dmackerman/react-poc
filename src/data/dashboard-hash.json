@@ -1,14 +1,18 @@
 {
   "1": {
+    "id": 1,
     "layout": "row",
+    "order": 1,
     "flex": 1,
     "children": {
-      "166": {
+      "160": {
+        "id": 160,
         "panel_title": "Total Traffic, bps",
         "flex": 1,
         "order": 1
       },
-      "167": {
+      "161": {
+        "id": 161,
         "panel_title": "Source Countries",
         "flex": 1,
         "order": 2
@@ -16,15 +20,19 @@
     }
   },
   "2": {
+    "id": 2,
     "layout": "column",
+    "order": 2,
     "flex": 1,
     "children": {
       "170": {
+        "id": 170,
         "panel_title": "Total Traffic, bps",
         "flex": 1,
         "order": 2
       },
       "171": {
+        "id": 171,
         "panel_title": "Source Countries",
         "flex": 1,
         "order": 1
@@ -32,15 +40,19 @@
     }
   },
   "3": {
+    "id": 3,
     "layout": "row",
+    "order": 3,
     "flex": 1,
     "children": {
-      "170": {
+      "180": {
+        "id": 180,
         "panel_title": "Total Traffic, bps",
         "flex": 1,
         "order": 1
       },
-      "171": {
+      "181": {
+        "id": 181,
         "panel_title": "Dest AS Source AS",
         "flex": 1,
         "order": 2
