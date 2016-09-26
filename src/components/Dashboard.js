@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import { DragDropContext } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
-import { DashboardContainer, DashboardItem } from './';
+import { Page, DashboardContainer, DashboardItem } from './';
 import DashboardStore from '../store/DashboardStore';
 
 class Dashboard extends Component {
@@ -41,11 +41,11 @@ class Dashboard extends Component {
 
     render() {
         return (
-            <div className="page">
+            <Page>
                 {DashboardStore.data.values().map((val, key, map) => {
                     return this.renderContainer(val);
                 })}
-            </div>
+            </Page>
         )
     }
 

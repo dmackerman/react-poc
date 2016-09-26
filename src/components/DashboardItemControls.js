@@ -1,22 +1,23 @@
 import React, { Component } from 'react';
+import { Button } from 'rebass'
 
 class DashboardItemControls extends Component {
     render() {
         const { item, container } = this.props;
         return (
             <div className="controls">
-                <button className="btn btn-primary h6"
+                <Button
                     onClick={() => item.increaseFlex()}>
                     Increase Flex
-                </button>
-                <button className="btn red h6"
+                </Button>
+                <Button
                     onClick={() => item.removeItem(container)}>
                     Delete
-                </button>
-                <button className="btn h6"
+                </Button>
+                <Button
                     onClick={() => item.logDetails()}>
                     Log Details
-                </button>
+                </Button>
             </div>
         )
     }

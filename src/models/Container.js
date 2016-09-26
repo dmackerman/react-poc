@@ -51,6 +51,7 @@ class Container {
 
   @action showItemPlaceholder(position, item) {
       this.placeholder.order = position;
+      this.placeholder.item = item;
 
       // temporarily set a dropPosition for this container so we know where
       // to put the new item.
@@ -85,9 +86,7 @@ class Container {
   }
 
   @action removeItem(item) {
-    setTimeout(() => {
-        this.children.delete(item.id);
-    }, 250);
+    this.children.delete(item.id);
   }
 
   @action increaseFlex() {

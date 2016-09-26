@@ -1,78 +1,68 @@
 import React from 'react';
 import classNames from 'classnames';
-import { findDOMNode } from 'react-dom';
+import { injectSheet } from '../utils/jss';
 import { DropTarget } from 'react-dnd';
 import { observer } from "mobx-react";
 import ItemPlaceholder from  './ItemPlaceholder';
 
-const X_THRESHOLD = 150;
-
 const dashboardContainerTarget = {
   canDrop(props, monitor) {
-    // const {item} = monitor.getItem();
-    // const {container} = props;
     return true;
-    // return container.canDropItem(item);
-  },
-
-  hover(props, monitor, component) {
-    let dropX, dropY;
-
-    const { container } = props;
-
-    const containerBoundingRect = findDOMNode(component).getBoundingClientRect();
-    const containerMiddleX = Math.round(containerBoundingRect.width / 2);
-    const containerMiddleY = (containerBoundingRect.bottom - containerBoundingRect.top) / 2
-
-    // Determine mouse position
-    const clientOffset = monitor.getClientOffset();
-
-    if ( (clientOffset.y >= containerMiddleY )) {
-        dropY = 'bottom'
-    }
-    else {
-        dropY = 'top'
-    }
-
-    // in the middle
-    if ( (clientOffset.x >= containerMiddleX - X_THRESHOLD ) && ( clientOffset.x <= containerMiddleX + X_THRESHOLD ) ) {
-        dropX = 'middle'
-    }
-
-    // left side?
-    if (clientOffset.x <= ( containerMiddleX - X_THRESHOLD )) {
-        dropX = 'left'
-    }
-
-    // right
-    if ( clientOffset.x > ( containerMiddleX + X_THRESHOLD )) {
-        dropX = 'right'
-    }
-
   },
 
   drop(props, monitor, component) {
     const { container } = props;
     const { item, oldContainer } = monitor.getItem();
 
-    console.log(monitor.getItem());
-
     if (monitor.didDrop()) {
       return;
     }
 
     if (container.existsInContainer(item)) {
-        // reorder
-        console.log('should reorder')
         container.moveItem(item);
     }
     else {
-        // move
-        console.log('move')
         container.moveItem(item, oldContainer);
     }
 
   }
+};
+
+const containerWidths = {};
+const containerHeights = {};
+
+[25, 50, 75, 100].forEach(num => {
+    containerWidths[[`width-${num}`]] = { width: `${num}%` };
+});
+
+[200, 300, 400, 500, 600].forEach(height => {
+    containerHeights[[`height-${height}`]] = { minHeight: `${height}px` };
+})
+
+const styles = {
+    container: {
+        display: 'flex',
+        border: '2px dashed transparent',
+        borderRadius: '5px',
+        position: 'relative',
+        transition: 'all 2.s ease',
+        width: '100%',
+        flexDirection: 'row',
+        '&:hover': {
+          borderColor: '#ccc'
+        }
+    },
+    toggleBtn: {
+        position: 'absolute',
+        height: '20px',
+        top: '-10px',
+        right: '0'
+    },
+    column: {
+        flexDirection: 'column'
+    },
+    ...containerWidths,
+    ...containerHeights
 };
 
 @DropTarget('dashboardItem', dashboardContainerTarget, (connect, monitor) => ({
@@ -82,30 +72,25 @@ const dashboardContainerTarget = {
     canDrop: monitor.canDrop(),
     itemType: monitor.getItemType()
 }))
+@injectSheet(styles)
 @observer class DashboardContainer extends React.Component {
     render() {
-        const { container, children } = this.props;
-        const { isOver, canDrop, connectDropTarget } = this.props;
+        const { container, children, sheet: {classes} } = this.props;
+        const { isOver, connectDropTarget } = this.props;
 
         const containerClass = classNames({
-          'container': true,
-          [`height-${container.height}`]: true,
-          [`width-${container.width}`]: true,
-          'column': container.layout === 'column',
-          'droppable': canDrop,
-          'over': isOver
+          [classes.container]: true,
+          [classes[`height-${container.height}`]]: true,
+          [classes[`width-${container.width}`]]: true,
+          [classes.column]: container.layout === 'column'
         });
 
-        const containerStyles = {
-          order: container.order
-        };
-
         return connectDropTarget(
-          <div className={containerClass} style={containerStyles}>
-              <button className="container-toggle" onClick={() => container.toggleLayout()}>
+          <div className={containerClass}>
+              <button style={styles.toggleBtn} onClick={() => container.toggleLayout()}>
                   Toggle Layout
               </button>
-              {children}
+              { children }
               { isOver ? <ItemPlaceholder data={container.placeholder} /> : '' }
           </div>
         )

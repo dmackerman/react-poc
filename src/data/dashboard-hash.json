@@ -4,7 +4,7 @@
     "layout": "row",
     "order": 1,
     "width": 100,
-    "height": 2,
+    "height": 300,
     "children": {
       "160": {
         "id": 160,
@@ -27,7 +27,7 @@
     "layout": "row",
     "order": 2,
     "width": 75,
-    "height": 2,
+    "height": 400,
     "children": {
       "170": {
         "id": 170,
@@ -54,7 +54,7 @@
     "layout": "row",
     "order": 3,
     "width": 100,
-    "height": 1,
+    "height": 200,
     "children": {
       "180": {
         "id": 180,
