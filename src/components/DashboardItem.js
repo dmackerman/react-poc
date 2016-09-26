@@ -11,19 +11,20 @@ const dashboardItemSource = {
     beginDrag(props) {
         return {
             item: props.item,
-            oldContainer: props.container
+            oldContainer: props.container,
+
         }
     }
 };
 
 const cardTarget = {
+    // @TODO figure out if an item can actually be dropped properly.
     canDrop(props, monitor) {
-        const { item } = monitor.getItem();
         return true;
-        //   return container.canDropItem(item);
     },
+
     hover(props, monitor, component) {
-        const { container, item } = monitor.getItem();
+        const { item } = monitor.getItem();
 
         // our hovering targets
         const hoveredItem = props.item;
@@ -37,54 +38,44 @@ const cardTarget = {
             return;
         }
 
-        // Determine mouse position
+        // determine mouse position
         const clientOffset = monitor.getClientOffset();
 
         // bounds for the item were hovering over, and the middle point
         const hoverBoundingRect = findDOMNode(component).getBoundingClientRect();
         const hoverMiddleX = Math.round(hoverBoundingRect.width / 2);
+        const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
 
-        if (clientOffset.x - hoverBoundingRect.left > hoverMiddleX) {
-            hoveredContainer.showItemPlaceholder(hoveredItem.order + 1)
-            return;
+        const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+        console.log(hoverMiddleY, hoverClientY);
+
+        // @TODO how do we handle the vertical use case?
+        // very simple logic to show placeholders to the left or right.
+
+        if (hoveredContainer.layout === 'row') {
+            if (clientOffset.x - hoverBoundingRect.left > hoverMiddleX) {
+                hoveredContainer.showItemPlaceholder(hoveredItem.order + 1)
+                return;
+            }
+
+            if (clientOffset.x - hoverBoundingRect.left < hoverMiddleX) {
+                hoveredContainer.showItemPlaceholder(hoveredItem.order - 1)
+                return;
+            }
         }
 
-        if (clientOffset.x - hoverBoundingRect.left < hoverMiddleX) {
-            hoveredContainer.showItemPlaceholder(hoveredItem.order - 1)
-            return;
+        else {
+            if (hoverClientY > hoverMiddleY) {
+                hoveredContainer.showItemPlaceholder(hoveredItem.order + 1)
+                return;
+            }
+            else {
+                hoveredContainer.showItemPlaceholder(hoveredItem.order - 1)
+                return;
+            }
         }
 
-        // console.log(monitor.isOver())
-        //
-        // console.log(monitor.getItem())
-
-        // // Get vertical middle
-
-        //
-
-        //
-        // // Get pixels to the top
-        // const hoverClientY = clientOffset.y - hoverBoundingRect.top;
-
-        // Only perform the move when the mouse has crossed half of the items height
-        // When dragging downwards, only move when the cursor is below 50%
-        // When dragging upwards, only move when the cursor is above 50%
-
-        // // Dragging downwards
-        // if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-        //   return;
-        // }
-        //
-        // // Dragging upwards
-        // if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-        //   return;
-        // }
-    },
-
-    /*TODO Handle ordering */
-  drop(props, monitor, component) {
-    //   const { container, item } = monitor.getItem();
-  }
+    }
 };
 
 
@@ -101,16 +92,14 @@ const cardTarget = {
     render() {
         const { container } = this.props;
         const { flex, panel_title, id, loading, added, removed, order, isPlaceholder} = this.props.item;
-        const { isDragging, connectDragSource, connectDragPreview, connectDropTarget, isOver } = this.props;
+        const { isDragging, connectDragSource, connectDragPreview, connectDropTarget } = this.props;
         const dashboardItemClass = classNames({
             'box': true,
             'new-item': added,
             'removed': removed,
             'loading': loading,
             'dragging': isDragging,
-            [`flex-${flex}`]: true,
-            'placeholder': isPlaceholder
-            // 'over': isOver
+            [`flex-${flex}`]: true
         });
 
 

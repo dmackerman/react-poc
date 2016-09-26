@@ -3,18 +3,21 @@
     "id": 1,
     "layout": "row",
     "order": 1,
-    "flex": 1,
+    "width": 100,
+    "height": 2,
     "children": {
       "160": {
         "id": 160,
         "panel_title": "Total Traffic, bps",
         "flex": 1,
+        "height": 1,
         "order": 1
       },
       "161": {
         "id": 161,
         "panel_title": "Source Countries",
         "flex": 1,
+        "height": 2,
         "order": 2
       }
     }
@@ -23,7 +26,8 @@
     "id": 2,
     "layout": "row",
     "order": 2,
-    "flex": 1,
+    "width": 75,
+    "height": 2,
     "children": {
       "170": {
         "id": 170,
@@ -49,7 +53,8 @@
     "id": 3,
     "layout": "row",
     "order": 3,
-    "flex": 1,
+    "width": 100,
+    "height": 1,
     "children": {
       "180": {
         "id": 180,

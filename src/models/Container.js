@@ -1,13 +1,15 @@
 import { observable, computed, action, map, toJS } from 'mobx';
-import { random } from 'lodash';
 import Item from './Item';
 import ItemPlaceholder from './ItemPlaceholder';
 
 class Container {
   @observable flex;
+  @observable height;
+  @observable width;
   @observable children;
   @observable layout;
   @observable placeholder;
+  @observable itemDropPosition;
 
   constructor(data) {
 
@@ -24,9 +26,13 @@ class Container {
     this.type = 'container';
     this.id = data.id;
     this.flex = data.flex;
+    this.height = data.height;
+    this.width = data.width;
     this.children = children;
     this.layout = data.layout;
 
+    // each Container will have a placeholder component which renders where items
+    // will be dropped.
     this.placeholder = new ItemPlaceholder();
   }
 
@@ -43,10 +49,12 @@ class Container {
       return !this.children.has(item.id);
   }
 
-  @action showItemPlaceholder(position) {
-      console.log('showItemPlaceholder');
+  @action showItemPlaceholder(position, item) {
       this.placeholder.order = position;
-    //   this.children.set(item.id, { id: 2 });
+
+      // temporarily set a dropPosition for this container so we know where
+      // to put the new item.
+      this.itemDropPosition = position;
   }
 
   // check if the item exists in this container
@@ -54,11 +62,22 @@ class Container {
       return this.children.has(item.id);
   }
 
+  @action reorderItems(item) {
+      this.children.forEach((value, key, map) => {
+          console.log(value);
+      });
+  }
+
   // moves an item into this container, will figure out position later
   @action moveItem(item, oldContainer) {
+      item.order = this.itemDropPosition;
       this.children.set(item.id, item);
-      oldContainer.children.delete(item.id);
-      item.added = true;
+
+      if (oldContainer) {
+          oldContainer.children.delete(item.id);
+      }
+
+      this.dropPosition = null;
   }
 
   @action toggleLayout() {

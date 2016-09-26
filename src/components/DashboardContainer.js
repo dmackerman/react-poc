@@ -1,8 +1,7 @@
 import React from 'react';
 import classNames from 'classnames';
-import { map, mapValues } from 'lodash';
 import { findDOMNode } from 'react-dom';
-import { DropTarget, DragLayer } from 'react-dnd';
+import { DropTarget } from 'react-dnd';
 import { observer } from "mobx-react";
 import ItemPlaceholder from  './ItemPlaceholder';
 
@@ -10,8 +9,8 @@ const X_THRESHOLD = 150;
 
 const dashboardContainerTarget = {
   canDrop(props, monitor) {
-    const {item} = monitor.getItem();
-    const {container} = props;
+    // const {item} = monitor.getItem();
+    // const {container} = props;
     return true;
     // return container.canDropItem(item);
   },
@@ -21,22 +20,9 @@ const dashboardContainerTarget = {
 
     const { container } = props;
 
-    // console.log(container.children.size);
-
-    const { item, oldContainer } = monitor.getItem();
-
     const containerBoundingRect = findDOMNode(component).getBoundingClientRect();
-    const containerChildren = container.children.values().map(child => {
-        return { id: child.id, order: child.order };
-    });
-
-    // console.log(containerChildren)
-    // console.log(childrenOrders);
-
-
     const containerMiddleX = Math.round(containerBoundingRect.width / 2);
-    const containerMiddleY = (containerBoundingRect.bottom - containerBoundingRect.top) / 2;
-    // console.log(containerMiddleY);
+    const containerMiddleY = (containerBoundingRect.bottom - containerBoundingRect.top) / 2
 
     // Determine mouse position
     const clientOffset = monitor.getClientOffset();
@@ -63,28 +49,22 @@ const dashboardContainerTarget = {
         dropX = 'right'
     }
 
-
-
-    // if (containerChildren.length % 2 === 0) {
-        if (dropX === 'left') {
-            // container.children.forEach((val, key, map) => {
-            //     val.flex = 1;
-            // });
-            // container.showItemPlaceholder();
-            return;
-        }
   },
 
   drop(props, monitor, component) {
-    const {container} = props;
+    const { container } = props;
+    const { item, oldContainer } = monitor.getItem();
+
+    console.log(monitor.getItem());
+
     if (monitor.didDrop()) {
       return;
     }
-    const { item, oldContainer } = monitor.getItem();
 
     if (container.existsInContainer(item)) {
         // reorder
         console.log('should reorder')
+        container.moveItem(item);
     }
     else {
         // move
@@ -95,27 +75,22 @@ const dashboardContainerTarget = {
   }
 };
 
-function collect(connect, monitor) {
-  return {
+@DropTarget('dashboardItem', dashboardContainerTarget, (connect, monitor) => ({
     connectDropTarget: connect.dropTarget(),
     isOver: monitor.isOver(),
     isOverCurrent: monitor.isOver(),
     canDrop: monitor.canDrop(),
     itemType: monitor.getItemType()
-  };
-}
-
-class DashboardContainer extends React.Component {
+}))
+@observer class DashboardContainer extends React.Component {
     render() {
-        const {container, children} = this.props;
-
-        // These this.props are injected by React DnD,
-        // as defined by your `collect` function above:
-        const {isOver, canDrop, connectDropTarget} = this.props;
+        const { container, children } = this.props;
+        const { isOver, canDrop, connectDropTarget } = this.props;
 
         const containerClass = classNames({
           'container': true,
-          [`flex-${container.flex}`]: container.flex,
+          [`height-${container.height}`]: true,
+          [`width-${container.width}`]: true,
           'column': container.layout === 'column',
           'droppable': canDrop,
           'over': isOver
@@ -138,4 +113,4 @@ class DashboardContainer extends React.Component {
 }
 
 
-export default DropTarget('dashboardItem', dashboardContainerTarget, collect)(observer(DashboardContainer));
+export default DashboardContainer;

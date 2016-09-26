@@ -27,11 +27,12 @@ p {
 
 .page {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
     overflow-y: auto;
-    height: calc(100vh - 60px);
-    overflow-y: auto;
+    height: calc(100vh);
     padding-top: 85px;
+    flex-shrink: 0;
 }
 
 .container-toggle {
@@ -44,15 +45,15 @@ p {
 
 .container {
     display: flex;
-    border: 2px dashed #e4dada;
+    border: 2px dashed transparent;
     border-radius: 5px;
-    margin: 15px;
     position: relative;
     transition: all 2.s ease;
+    width: 100%;
 }
 
-.container.droppable {
-  /*background: #CEE5CB;*/
+.container:hover {
+  border-color: #ccc;
 }
 
 .drag-handle {
@@ -69,7 +70,7 @@ p {
   background: red;
 }
 
-.container:before {
+/*.container:before {
     content: attr(class);
     font-size: 12px;
     padding: 5px;
@@ -77,7 +78,7 @@ p {
     top: -15px;
     background: white;
     font-family: monospace;
-}
+}*/
 
 .container.column {
     flex-direction: column
@@ -123,7 +124,8 @@ p {
 }
 
 .box.dragging {
-  opacity: 0;
+  /*opacity: 0;*/
+  display: none;
 }
 
 .loading-indicator {
@@ -164,6 +166,10 @@ p {
   margin-bottom: 0;
 }
 
+.container.column .box {
+  margin-right: 0;
+}
+
 .controls {
   position: absolute;
   display: none;
@@ -192,6 +198,46 @@ p {
 
 .flex-6 {
     flex-grow: 6;
+}
+
+.height-1 {
+  min-height: 200px;
+}
+
+.height-2 {
+  min-height: 300px;
+}
+
+.height-3 {
+  min-height: 400px;
+}
+
+.height-4 {
+  min-height: 400px;
+}
+
+.height-5 {
+  min-height: 500px;
+}
+
+.height-6 {
+  min-height: 600px;
+}
+
+.width-25 {
+  width: 25%;
+}
+
+.width-50 {
+  width: 50%;
+}
+
+.width-75 {
+  width: 75%;
+}
+
+.width-100 {
+  width: 100%;
 }
 
 .removed {
