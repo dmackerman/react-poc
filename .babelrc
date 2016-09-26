@@ -2,7 +2,8 @@
   "presets": [
     "es2015",
     "stage-1",
-    "react"
+    "react",
+    "react-hmre"
   ],
   "plugins": [
     "transform-decorators-legacy",
