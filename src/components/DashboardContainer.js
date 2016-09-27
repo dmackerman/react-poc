@@ -19,15 +19,12 @@ const dashboardContainerTarget = {
 
       const { container } = props;
 
-      // console.log(container.children.size);
-
       const { item, oldContainer } = monitor.getItem();
 
       const containerBoundingRect = findDOMNode(component).getBoundingClientRect();
 
       const containerMiddleX = Math.round(containerBoundingRect.width / 2);
       const containerMiddleY = (containerBoundingRect.bottom - containerBoundingRect.top) / 2;
-      // console.log(containerMiddleY);
 
       // Determine mouse position
       const clientOffset = monitor.getClientOffset();
@@ -53,9 +50,6 @@ const dashboardContainerTarget = {
       if ( clientOffset.x > ( containerMiddleX + X_THRESHOLD )) {
           dropX = 'right'
       }
-
-    console.log(dropX, dropY);
-
     },
 
   drop(props, monitor, component) {
@@ -79,12 +73,12 @@ const dashboardContainerTarget = {
 const containerWidths = {};
 const containerHeights = {};
 
-[25, 50, 75, 100].forEach(num => {
+[10, 20, 30, 40, 50, 60, 70, 80, 90, 100].forEach(num => {
     containerWidths[[`width-${num}`]] = { width: `${num}%` };
 });
 
-[200, 300, 400, 500, 600].forEach(height => {
-    containerHeights[[`height-${height}`]] = { minHeight: `${height}px` };
+[100, 200, 300, 400, 500, 600, 700, 800, 900].forEach(height => {
+    containerHeights[[`height-${height}`]] = { height: `${height}px` };
 })
 
 const styles = {

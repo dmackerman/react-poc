@@ -3,7 +3,7 @@
     "id": 1,
     "layout": "row",
     "order": 1,
-    "width": 100,
+    "width": 50,
     "height": 300,
     "children": {
       "160": {
@@ -19,14 +19,38 @@
         "flex": 1,
         "height": 2,
         "order": 2
+      },
+      "4": {
+        "id": 4,
+        "layout": "column",
+        "order": 1,
+        "width": 50,
+        "height": 300,
+        "parent": 1,
+        "children": {
+          "190": {
+            "id": 190,
+            "panel_title": "Nested!",
+            "flex": 1,
+            "height": 1,
+            "order": 1
+          },
+          "191": {
+            "id": 191,
+            "panel_title": "Much Nesting",
+            "flex": 1,
+            "height": 2,
+            "order": 2
+          }
+        }
       }
     }
   },
   "2": {
     "id": 2,
-    "layout": "row",
+    "layout": "column",
     "order": 2,
-    "width": 100,
+    "width": 50,
     "height": 400,
     "children": {
       "170": {

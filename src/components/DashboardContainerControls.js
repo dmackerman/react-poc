@@ -19,11 +19,20 @@ const style = {
                     <Button ml={1} theme="primary" onClick={() => container.toggleLayout()}>
                         Toggle Layout
                     </Button>
+                    <Button ml={1} theme="error" onClick={() => container.removeContainer()}>
+                        Delete
+                    </Button>
                     <Button ml={1} theme="secondary" onClick={() => container.increaseWidth()}>
                         Width +
                     </Button>
                     <Button ml={1} theme="secondary" onClick={() => container.decreaseWidth()}>
                         Width -
+                    </Button>
+                    <Button ml={1} theme="secondary" onClick={() => container.increaseHeight()}>
+                        Height +
+                    </Button>
+                    <Button ml={1} theme="secondary" onClick={() => container.decreaseHeight()}>
+                        Height -
                     </Button>
                 </Flex>
             </div>

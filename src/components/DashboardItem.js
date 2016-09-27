@@ -14,9 +14,11 @@ const dashboardItemSource = {
     beginDrag(props) {
         return {
             item: props.item,
-            oldContainer: props.container,
-
+            oldContainer: props.container
         }
+    },
+    endDrag(props, monitor, component) {
+        console.log(monitor.didDrop());
     }
 };
 
@@ -86,7 +88,7 @@ export const dashboardItemStyles = {
         borderRadius: '5px',
         border: '1px solid #ccc',
         flexGrow: '1',
-        minHeight: '250px',
+        minHeight: '180px',
         margin: '10px',
         padding: '15px',
         position: 'relative',

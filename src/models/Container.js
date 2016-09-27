@@ -1,39 +1,74 @@
-import { observable, computed, action, map, toJS } from 'mobx';
+import { observable, when, computed, action, map, toJS } from 'mobx';
 import Item from './Item';
 import ItemPlaceholder from './ItemPlaceholder';
 
+// @TODO
+// - when a child containers height is greather than it's parent, make them equal
+
 class Container {
-  @observable flex;
   @observable height;
   @observable width;
   @observable children;
   @observable layout;
   @observable placeholder;
   @observable itemDropPosition;
+  @observable parent;
 
-  constructor(data) {
+  constructor(data = {}, store) {
 
     // since our data structure is a hash, Mobx needs to use Maps to
     // identify when new Objects are added or removed.
     // https://mobxjs.github.io/mobx/refguide/map.html
     const children = map();
-    const childrenIds = Object.keys(data.children);
-    childrenIds.forEach(childId => {
-      let child = data.children[childId]
-      children.set(childId, new Item(child));
-    });
+    let childrenIds;
+
+    if (data.children) {
+        childrenIds = Object.keys(data.children);
+        console.log(childrenIds);
+        childrenIds.forEach(childId => {
+          let child = data.children[childId]
+          if (child.children) {
+            let nestedContainer = new Container(child);
+            children.set(childId, nestedContainer);
+          }
+            else {
+            children.set(childId, new Item(child));
+            }
+
+        });
+    }
 
     this.type = 'container';
-    this.id = data.id;
-    this.flex = data.flex;
-    this.height = data.height;
-    this.width = data.width;
+    this.id = data.id || Date.now();
+    this.height = data.height || 400;
+    this.width = data.width || 100;
     this.children = children;
-    this.layout = data.layout;
+    this.layout = data.layout || 'row';
+    this.parent = data.parent || null;
+
+    // our store
+    this.store = store;
 
     // each Container will have a placeholder component which renders where items
     // will be dropped.
     this.placeholder = new ItemPlaceholder();
+
+    // simple reaction to when our container has no items, remove it.
+    // when(
+    //   () => this.numChildren === 0,
+    //   () => this.removeContainer()
+    // );
+  }
+
+  @computed get data() {
+    return toJS({
+        type: this.type,
+        id: this.id,
+        height: this.height,
+        width: this.width,
+        children: this.children,
+        layout: this.layout
+    })
   }
 
   @computed get numChildren() {
@@ -69,7 +104,7 @@ class Container {
       });
   }
 
-  // moves an item into this container, will figure out position later
+  // moves an item into this container
   @action moveItem(item, oldContainer) {
       item.order = this.itemDropPosition;
       this.children.set(item.id, item);
@@ -94,16 +129,34 @@ class Container {
   }
 
   @action increaseWidth() {
-      this.width += 25;
+      this.width += 10;
   }
 
   @action decreaseWidth() {
-      this.width -= 25;
+      this.width -= 10;
+  }
+
+  @action increaseHeight() {
+     if (this.height < 900) {
+        this.height += 100;
+        // console.log(this.store.data, this.parent);
+        // this.store.data.get(this.parent).height = this.height;
+     }
+  }
+
+  @action decreaseHeight() {
+      if (this.height <= 900 && this.height > 100) {
+         this.height -= 100;
+      }
   }
 
   @action logDetails() {
     console.log(toJS(this));
   }
+
+    @action removeContainer() {
+        this.store.removeContainer(this);
+    }
 
 }
 

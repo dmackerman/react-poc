@@ -14,7 +14,8 @@ const style = {
         left: '0',
         background: '#383944',
         color: '#fff',
-        padding: '20px'
+        padding: '20px',
+        zIndex: '9999'
     }
 };
 
