@@ -7,7 +7,6 @@ import { BrowserRouter, Match, Miss } from 'react-router'
 import { Dashboard, DashboardToolbar, About, NotFound } from './components';
 import DashboardStore from './store/DashboardStore';
 
-
 class App extends Component {
   static childContextTypes = {
     rebass: React.PropTypes.object,
@@ -22,8 +21,15 @@ class App extends Component {
     return {
       rebass: {
         // @TODO implement custom theme for Kentik, right here!
-        //    colors: myCustomColors,
-        fontSizes: [64, 48, 24, 18, 16, 14, 12],
+        colors: {
+            primary: '#4C9ADE',
+            secondary: '#E37639',
+            success: '#5AC461',
+            error: '#D3483E',
+            white: '#ffffff',
+            gray: '#5A5C6D'
+        },
+        fontSizes: [64, 48, 24, 18, 16, 13, 12],
       }
     }
   }

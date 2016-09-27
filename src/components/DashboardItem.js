@@ -4,9 +4,11 @@ import { injectSheet } from '../utils/jss';
 import classNames from 'classnames';
 import { DragSource, DropTarget } from 'react-dnd';
 import { observer } from "mobx-react";
-import { Heading, Text } from 'rebass';
+import { Flex } from 'reflexbox';
+import { Heading, Text, Space } from 'rebass';
 import { LoadingIndicator } from './';
 import { DashboardItemControls } from './';
+import EditItemModal from './modal/EditItemModal';
 
 const dashboardItemSource = {
     beginDrag(props) {
@@ -118,7 +120,7 @@ export const dashboardItemStyles = {
 @observer export class DashboardItem extends Component {
     render() {
         const { container, store: { editting }, sheet: { classes } } = this.props;
-        const { flex, panel_title, id, loading, order } = this.props.item;
+        const { flex, panel_title, id, loading, order, isEditting } = this.props.item;
         const { isDragging, connectDragSource, connectDragPreview, connectDropTarget } = this.props;
         const dashboardItemClass = classNames({
             [classes.item]: true,
@@ -130,22 +132,29 @@ export const dashboardItemStyles = {
             order: order
         };
 
+        const thing = {
+            height: '100%'
+        };
+
         const isLoading = loading ? <LoadingIndicator /> : '';
         const itemControls = editting ? <DashboardItemControls item={this.props.item} container={container} /> : '';
 
         return connectDragPreview(
             connectDropTarget(
                 <div className={dashboardItemClass} style={itemStyle}>
-                    { isLoading }
-                    {connectDragSource(
-                        <div className={classes.dragHandle}>
-                            <img alt="drag" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNi4yLjEsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB3aWR0aD0iNTEycHgiIGhlaWdodD0iNTEycHgiIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1MTIgNTEyOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8cG9seWdvbiBwb2ludHM9IjQ4MCwyNTYgMzg0LDE2MCAzODQsMjM2IDI3NiwyMzYgMjc2LDEyOCAzNTIsMTI4IDI1NiwzMiAxNjAsMTI4IDIzNiwxMjggMjM2LDIzNiAxMjgsMjM2IDEyOCwxNjAgMzIsMjU2IDEyOCwzNTIgDQoJMTI4LDI3NiAyMzYsMjc2IDIzNiwzODQgMTYwLDM4NCAyNTYsNDgwIDM1MiwzODQgMjc1LjgsMzg0IDI3NS40LDI3NS41IDM4NCwyNzUuOCAzODQsMzUyICIvPg0KPC9zdmc+DQo=" />
-                        </div>
-                    )}
-                    <Heading level={4}>{panel_title} (ID: {id})</Heading>
-                    <Text color="grey">flex: {flex} - order: {order}</Text>
-
-                    { itemControls}
+                    <Flex flexColumn flexAuto style={thing}>
+                        { isLoading }
+                        {connectDragSource(
+                            <div className={classes.dragHandle}>
+                                <img alt="drag" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4NCjwhLS0gR2VuZXJhdG9yOiBBZG9iZSBJbGx1c3RyYXRvciAxNi4yLjEsIFNWRyBFeHBvcnQgUGx1Zy1JbiAuIFNWRyBWZXJzaW9uOiA2LjAwIEJ1aWxkIDApICAtLT4NCjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+DQo8c3ZnIHZlcnNpb249IjEuMSIgaWQ9IkxheWVyXzEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4Ig0KCSB3aWR0aD0iNTEycHgiIGhlaWdodD0iNTEycHgiIHZpZXdCb3g9IjAgMCA1MTIgNTEyIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1MTIgNTEyOyIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+DQo8cG9seWdvbiBwb2ludHM9IjQ4MCwyNTYgMzg0LDE2MCAzODQsMjM2IDI3NiwyMzYgMjc2LDEyOCAzNTIsMTI4IDI1NiwzMiAxNjAsMTI4IDIzNiwxMjggMjM2LDIzNiAxMjgsMjM2IDEyOCwxNjAgMzIsMjU2IDEyOCwzNTIgDQoJMTI4LDI3NiAyMzYsMjc2IDIzNiwzODQgMTYwLDM4NCAyNTYsNDgwIDM1MiwzODQgMjc1LjgsMzg0IDI3NS40LDI3NS41IDM4NCwyNzUuOCAzODQsMzUyICIvPg0KPC9zdmc+DQo=" />
+                            </div>
+                        )}
+                        <Heading level={4}>{panel_title} (ID: {id})</Heading>
+                        <Text color="grey">flex: {flex} - order: {order}</Text>
+                        <Space auto />
+                        { itemControls}
+                    </Flex>
+                    <EditItemModal open={isEditting} item={this.props.item} toggle={() => this.props.item.toggleEditItem()} />
 
                 </div>
             )

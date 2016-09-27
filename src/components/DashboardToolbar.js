@@ -3,7 +3,8 @@ import { observer } from "mobx-react";
 import { Link } from 'react-router'
 import { injectSheet } from '../utils/jss';
 import { Flex } from 'reflexbox'
-import { Button, ButtonOutline, Space, Dropdown, DropdownMenu, Arrow, NavItem } from 'rebass'
+import { Button, ButtonOutline, Space } from 'rebass'
+import Icon from 'react-geomicons';
 
 const style = {
     toolbar: {
@@ -25,46 +26,34 @@ const DashboardToolbar = ({ store, sheet: {classes} }) => {
         <div className={classes.toolbar}>
             <Flex align="center">
                 <Link to="/">
-                    <Button color="white" mx={1}>Dashboard</Button>
+                    <Button backgroundColor="transparent" color="white" mx={1}>Dashboard</Button>
                 </Link>
                 <Button
                     mx={1}
-                    backgroundColor={editting ? "primary" : 'green' }
+                    theme={editting ? 'success' : 'secondary' }
                     color="white"
                     onClick={() => store.toggleEditMode()}>
+                    <Icon name={editting ? 'check' : 'compose'} />
                     {editText}
                 </Button>
+                <Space px={2} />
                 <ButtonOutline
                     mx={1}
                     color="white"
                     onClick={() => store.logStoreData()}>
                     Log Serialized Data
                 </ButtonOutline>
-                <Space auto></Space>
-                <Dropdown>
-                  <Button
-                    backgroundColor="primary"
+                <ButtonOutline
+                    mx={1}
                     color="white"
-                    inverted
-                    rounded
-                  >
-                    Dropdown
-                    <Arrow direction="down" />
-                  </Button>
-                  <DropdownMenu onDismiss={function noRefCheck() {}}>
-                    <NavItem is="a">
-                      Hello
-                    </NavItem>
-                    <NavItem is="a">
-                      Hi
-                    </NavItem>
-                  </DropdownMenu>
-                </Dropdown>
+                    onClick={() => store.resetToDefaultData()}>
+                    Restore Default Data
+                </ButtonOutline>
+                <Space auto></Space>
                 <Link to="/about">
                     <Button
                         mx={1}
-                        color="white"
-                        onClick={() => store.logStoreData()}>
+                        color="white">
                         About
                     </Button>
                 </Link>

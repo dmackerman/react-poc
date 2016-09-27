@@ -7,6 +7,7 @@ import About from './About';
 import NotFound from './NotFound';
 import LoadingIndicator from './LoadingIndicator';
 import DashboardItemControls from './DashboardItemControls';
+import DashboardContainerControls from './DashboardContainerControls';
 import CustomDragLayer from './CustomDragLayer';
 import ItemPlaceholder from './ItemPlaceholder';
 
@@ -20,6 +21,7 @@ export {
     NotFound,
     LoadingIndicator,
     DashboardItemControls,
+    DashboardContainerControls,
     CustomDragLayer,
     ItemPlaceholder
 };

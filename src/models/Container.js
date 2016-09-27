@@ -93,6 +93,14 @@ class Container {
     this.flex++;
   }
 
+  @action increaseWidth() {
+      this.width += 25;
+  }
+
+  @action decreaseWidth() {
+      this.width -= 25;
+  }
+
   @action logDetails() {
     console.log(toJS(this));
   }

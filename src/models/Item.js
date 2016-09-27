@@ -10,6 +10,7 @@ class Item {
   @observable order;
   @observable added = false;
   @observable removed = false;
+  @observable isEditting = false;
 
   constructor(json) {
     this.type = 'item';
@@ -39,6 +40,10 @@ class Item {
   @action increaseHeight() {
 
   }
+
+    @action toggleEditItem() {
+        this.isEditting = !this.isEditting;
+    }
 
   @action increaseFlex() {
     this.flex++;

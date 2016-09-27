@@ -1,10 +1,11 @@
 import React from 'react';
+import { Page } from './';
 
 const About = (props) => {
     return (
-        <div className="page">
+        <Page>
             About page.
-        </div>
+        </Page>
     )
 };
 
