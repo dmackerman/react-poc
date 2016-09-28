@@ -30,10 +30,6 @@ class App extends Component {
     };
   }
 
-  componentDidMount() {
-    console.log('App mount');
-  }
-
   render() {
     return (
       <BrowserRouter>

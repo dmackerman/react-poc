@@ -83,7 +83,7 @@ export const dashboardItemStyles = {
     borderRadius: '5px',
     border: '1px solid #ccc',
     flexGrow: '1',
-    minHeight: '180px',
+    // minHeight: '180px',
     margin: '10px',
     padding: '15px',
     position: 'relative',

@@ -32,7 +32,6 @@ module.exports = {
     // Disabled because of issues:
     // * https://github.com/facebookincubator/create-react-app/issues/525
     // * https://phabricator.babeljs.io/search/query/pCNlnC2xzwzx/
-    // TODO: Enable again when these issues are resolved.
     // require.resolve('babel-plugin-transform-react-constant-elements')
   // ]
 };

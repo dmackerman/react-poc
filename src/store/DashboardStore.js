@@ -10,9 +10,6 @@ class DashboardStore {
 
   constructor() {
     const dashboardData = this.storedDashboardData || defaultDashboardHashData;
-    console.log(this.storedDashboardData
-      ? 'using stored data'
-      : 'using default JSON');
     this.generateData(dashboardData);
   }
 
@@ -27,7 +24,8 @@ class DashboardStore {
   }
 
   removeContainer(container) {
-    this.data.delete(container.id);
+    console.log(container);
+    // this.data.delete(container.id);
   }
 
   createContainer() {

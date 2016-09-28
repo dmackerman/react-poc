@@ -106,7 +106,8 @@ const styles = {
   },
   editting: {
     borderColor: '#ccc',
-    margin: '25px 0'
+    margin: '25px 0',
+    padding: '25px 0 0 0'
   },
   ...containerWidths,
   ...containerHeights

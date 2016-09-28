@@ -5,9 +5,16 @@ import { Button } from 'rebass';
 
 const style = {
   position: 'absolute',
-  right: '10px',
-  top: '-20px',
-  width: '100%'
+  left: '0px',
+  top: '0px',
+  width: '100%',
+  zIndex: '999',
+  background: "#eee"
+};
+
+const disabledButton = {
+  opacity: '0.5',
+  pointerEvents: 'none'
 };
 
 @observer
@@ -18,25 +25,27 @@ class DashboardContainerControls extends Component {
 
   render() {
     const { container } = this.props;
+    const otherLayout = container.layout === 'row' ? 'Column' : 'Row';
+    // console.log(container.width);
     return (
       <div style={style}>
-        <Flex align="center" justify="flex-end">
+        <Flex align="center">
           <Button ml={1} theme="primary" onClick={() => container.toggleLayout()}>
-            Toggle Layout
+            Switch to {otherLayout}
           </Button>
           <Button ml={1} theme="error" onClick={() => container.removeContainer()}>
             Delete
           </Button>
-          <Button ml={1} theme="secondary" onClick={() => container.increaseWidth()}>
+          <Button style={container.width === 100 ? disabledButton : {}} ml={1} rounded="left" theme="secondary" onClick={() => container.increaseWidth()}>
             Width +
           </Button>
-          <Button ml={1} theme="secondary" onClick={() => container.decreaseWidth()}>
+          <Button style={container.width === 10 ? disabledButton : {}} rounded="right" theme="secondary" onClick={() => container.decreaseWidth()}>
             Width -
           </Button>
-          <Button ml={1} theme="secondary" onClick={() => container.increaseHeight()}>
+          <Button style={container.height === 900 ? disabledButton : {}} ml={1} rounded="left" theme="secondary" onClick={() => container.increaseHeight()}>
             Height +
           </Button>
-          <Button ml={1} theme="secondary" onClick={() => container.decreaseHeight()}>
+          <Button style={container.height === 100 ? disabledButton : {}} rounded="right" theme="secondary" onClick={() => container.decreaseHeight()}>
             Height -
           </Button>
         </Flex>

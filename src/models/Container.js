@@ -2,8 +2,8 @@ import { observable, computed, action, map, toJS } from 'mobx';
 import Item from './Item';
 import ItemPlaceholder from './ItemPlaceholder';
 
-// @TODO
-// - when a child containers height is greather than it's parent, make them equal
+// @TODO when a child containers height is greather than it's parent, make them equal
+// @TODO fix deletion of nested containers
 
 class Container {
   @observable height;
@@ -15,7 +15,6 @@ class Container {
   @observable parent;
 
   constructor(data = {}, store) {
-
     // since our data structure is a hash, Mobx needs to use Maps to
     // identify when new Objects are added or removed.
     // https://mobxjs.github.io/mobx/refguide/map.html
@@ -139,12 +138,16 @@ class Container {
 
   @action
   increaseWidth() {
-    this.width += 10;
+    if (this.width < 100) {
+      this.width += 10;
+    }
   }
 
   @action
   decreaseWidth() {
-    this.width -= 10;
+    if (this.width > 10) {
+      this.width -= 10;
+    }
   }
 
   @action
@@ -168,6 +171,7 @@ class Container {
 
   @action
   removeContainer() {
+    console.log(this);
     this.store.removeContainer(this);
   }
 
