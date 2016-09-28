@@ -16,14 +16,15 @@ export default class KentikInput extends Component {
   render() {
     const input = this.props;
     return (
-      <Input id={input.id}
+      <Input
+        id={input.id}
         name={input.name}
         label={input.placeholder}
         placeholder={input.placeholder}
         onChange={this.onChange}
         type={input.type}
         value={input.value} />
-    );
+      );
   }
 }
 

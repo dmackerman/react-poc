@@ -24,7 +24,6 @@ class Container {
 
     if (data.children) {
       childrenIds = Object.keys(data.children);
-      console.log(childrenIds);
       childrenIds.forEach(childId => {
         let child = data.children[childId];
         if (child.children) {
@@ -106,7 +105,7 @@ class Container {
   @action
   reorderItems(item) {
     this.children.forEach((value, key, map) => {
-      console.log(value);
+      // console.log(value);
     });
   }
 

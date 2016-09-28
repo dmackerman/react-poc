@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { observer } from 'mobx-react';
 import { DragDropContext, DropTarget } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
@@ -12,12 +12,12 @@ const dashboardNotInContainerTarget = {
     });
   },
 
-  hover(props, monitor, component) {
-    const isOver = monitor.isOver({
-      shallow: true
-    });
-    console.log(isOver);
-  },
+  // hover(props, monitor, component) {
+  //   const isOver = monitor.isOver({
+  //     shallow: true
+  //   });
+  //   console.log(isOver);
+  // },
 
   // if this is the case, we have to create a new container.
   drop(props, monitor, component) {
@@ -36,6 +36,10 @@ const dashboardNotInContainerTarget = {
 }))
 @observer
 class Dashboard extends Component {
+  static propTypes = {
+    connectDropTarget: PropTypes.func.isRequired
+  }
+
   constructor(props) {
     super(props);
     this.renderContainer = this.renderContainer.bind(this);
@@ -55,16 +59,18 @@ class Dashboard extends Component {
       if (child.children) {
         return this.renderContainer(child);
       }
-      return (<DashboardItem key={child.id}
-                store={DashboardStore}
-                container={container}
-                item={child} />);
+      return (
+        <DashboardItem
+          key={child.id}
+          store={DashboardStore}
+          container={container}
+          item={child} />
+        );
     });
   }
 
   render() {
     const { connectDropTarget } = this.props;
-    console.log('Dashboard render');
     return (connectDropTarget(
       <div>
         <Page>

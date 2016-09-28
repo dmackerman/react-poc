@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { Overlay, Panel, PanelHeader, PanelFooter, Button, Close, Space } from 'rebass';
 
 import ItemEditForm from '../forms/ItemEditForm';
@@ -6,7 +6,7 @@ import ItemEditForm from '../forms/ItemEditForm';
 const EditItemModal = ({ open, item, toggle }) => {
   return (
     <Overlay open={open}>
-      <Panel theme='primary'>
+      <Panel theme="primary">
         <PanelHeader>
           Edit Item
           <Space auto />
@@ -15,7 +15,7 @@ const EditItemModal = ({ open, item, toggle }) => {
         <ItemEditForm item={item} />
         <PanelFooter>
           <Space auto />
-          <Button rounded mr={1} theme='primary'>
+          <Button rounded mr={1} theme="primary">
             Save Changes
           </Button>
           <Button rounded backgroundColor="gray">
@@ -24,7 +24,13 @@ const EditItemModal = ({ open, item, toggle }) => {
         </PanelFooter>
       </Panel>
     </Overlay>
-  );
+    );
+};
+
+EditItemModal.propTypes = {
+  open: PropTypes.bool.isRequired,
+  item: PropTypes.object.isRequired,
+  toggle: PropTypes.func.isRequired
 };
 
 export default EditItemModal;

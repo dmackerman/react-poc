@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { observer } from 'mobx-react';
 import { Flex } from 'reflexbox';
 import { Button } from 'rebass';
@@ -12,6 +12,10 @@ const style = {
 
 @observer
 class DashboardContainerControls extends Component {
+  static propTypes = {
+    container: PropTypes.object.isRequired
+  }
+
   render() {
     const { container } = this.props;
     return (

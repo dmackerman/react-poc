@@ -1,7 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { ButtonOutline } from 'rebass';
 
 class DashboardItemControls extends Component {
+
+  static propTypes = {
+      item: PropTypes.object.isRequired,
+      container: PropTypes.object.isRequired
+  }
+
   render() {
     const { item, container } = this.props;
     return (

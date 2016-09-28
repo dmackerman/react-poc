@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { injectSheet } from '../utils/jss';
 import { observer } from 'mobx-react';
 import classNames from 'classnames';
@@ -19,6 +19,11 @@ const itemPlaceholderStyles = {
 @injectSheet(itemPlaceholderStyles)
 @observer
 class ItemPlaceholder extends Component {
+  static propTypes = {
+    data: PropTypes.object.isRequired,
+    sheet: PropTypes.any.isRequired
+  }
+
   render() {
     const { order, item } = this.props.data;
     const { sheet:{ classes } } = this.props;

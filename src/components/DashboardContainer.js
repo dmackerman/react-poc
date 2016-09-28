@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { findDOMNode } from 'react-dom';
 import classNames from 'classnames';
 import { injectSheet } from '../utils/jss';
@@ -123,8 +123,18 @@ const styles = {
 @observer
 class DashboardContainer extends React.Component {
 
+  static propTypes = {
+    container: PropTypes.object.isRequired,
+    store: PropTypes.object.isRequired,
+    sheet: PropTypes.object.isRequired,
+    children: PropTypes.node,
+    isOver: PropTypes.bool,
+    connectDropTarget: PropTypes.func
+  }
+
   render() {
-    const { container, store, children, sheet:{ classes } } = this.props;
+    const { container, store, children, sheet } = this.props;
+    const { classes } = sheet;
     const { isOver, connectDropTarget } = this.props;
 
     const containerClass = classNames({

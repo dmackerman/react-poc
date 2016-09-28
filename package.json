@@ -131,7 +131,7 @@
       "formatJSX": true,
       "attrsOnSameLineAsTag": false,
       "maxAttrsOnTag": 3,
-      "firstAttributeOnSameLine": true,
+      "firstAttributeOnSameLine": false,
       "formatJSXExpressions": true,
       "JSXExpressionsSingleLine": true,
       "alignWithFirstAttribute": false,

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
 const NotFound = ({ location }) => (
   <div className="page">
@@ -6,5 +6,9 @@ const NotFound = ({ location }) => (
     <p>Sorry but {location.pathname} didn’t match any pages</p>
   </div>
 );
+
+NotFound.propTypes = {
+  location: PropTypes.string.isRequired
+};
 
 export default NotFound;

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import { injectSheet } from '../utils/jss';
 
 const styles = {
@@ -15,8 +15,18 @@ const styles = {
 
 @injectSheet(styles)
 class Page extends Component {
+
+  static propTypes = {
+    children: PropTypes.node,
+    sheet: PropTypes.shape({
+      classes: PropTypes.object
+    })
+  }
+
   render() {
-    const { sheet:{ classes }, children } = this.props;
+    const { children } = this.props;
+    const { classes } = this.props.sheet;
+    
     return (
       <div className={classes.page}>
         {children}

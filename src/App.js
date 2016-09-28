@@ -13,10 +13,6 @@ class App extends Component {
     reflexbox: React.PropTypes.object
   }
 
-  componentDidMount() {
-    console.log('App mount');
-  }
-
   getChildContext() {
     return {
       rebass: {
@@ -32,6 +28,10 @@ class App extends Component {
         fontSizes: [64, 48, 24, 18, 16, 13, 12],
       }
     };
+  }
+
+  componentDidMount() {
+    console.log('App mount');
   }
 
   render() {
