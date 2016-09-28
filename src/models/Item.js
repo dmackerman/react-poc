@@ -21,40 +21,43 @@ class Item {
     this.order = json.order;
 
     when(
-        () => this.added,
-        () => this.clearAddedFlag()
+      () => this.added,
+      () => this.clearAddedFlag()
     );
 
     setTimeout(() => {
-        this.loading = false;
-    }, random(500, 2000))
+      this.loading = false;
+    }, random(500, 2000));
 
   }
 
   clearAddedFlag() {
-      setTimeout(() => {
-        this.added = false;
-      }, 500);
+    setTimeout(() => {
+      this.added = false;
+    }, 500);
   }
 
-  @action increaseHeight() {
+  @action
+  increaseHeight() {}
 
+  @action
+  toggleEditItem() {
+    this.isEditting = !this.isEditting;
   }
 
-    @action toggleEditItem() {
-        this.isEditting = !this.isEditting;
-    }
-
-  @action increaseFlex() {
+  @action
+  increaseFlex() {
     this.flex++;
   }
 
-  @action removeItem(container) {
+  @action
+  removeItem(container) {
     this.removed = true;
     container.removeItem(this);
   }
 
-  @action logDetails(e) {
+  @action
+  logDetails(e) {
     console.log(toJS(this));
   }
 }

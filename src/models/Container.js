@@ -1,4 +1,4 @@
-import { observable, when, computed, action, map, toJS } from 'mobx';
+import { observable, computed, action, map, toJS } from 'mobx';
 import Item from './Item';
 import ItemPlaceholder from './ItemPlaceholder';
 
@@ -23,19 +23,18 @@ class Container {
     let childrenIds;
 
     if (data.children) {
-        childrenIds = Object.keys(data.children);
-        console.log(childrenIds);
-        childrenIds.forEach(childId => {
-          let child = data.children[childId]
-          if (child.children) {
-            let nestedContainer = new Container(child);
-            children.set(childId, nestedContainer);
-          }
-            else {
-            children.set(childId, new Item(child));
-            }
+      childrenIds = Object.keys(data.children);
+      console.log(childrenIds);
+      childrenIds.forEach(childId => {
+        let child = data.children[childId];
+        if (child.children) {
+          let nestedContainer = new Container(child);
+          children.set(childId, nestedContainer);
+        } else {
+          children.set(childId, new Item(child));
+        }
 
-        });
+      });
     }
 
     this.type = 'container';
@@ -53,110 +52,125 @@ class Container {
     // will be dropped.
     this.placeholder = new ItemPlaceholder();
 
-    // simple reaction to when our container has no items, remove it.
-    // when(
-    //   () => this.numChildren === 0,
-    //   () => this.removeContainer()
-    // );
+  // simple reaction to when our container has no items, remove it.
+  // when(
+  //   () => this.numChildren === 0,
+  //   () => this.removeContainer()
+  // );
   }
 
-  @computed get data() {
+  @computed
+  get data() {
     return toJS({
-        type: this.type,
-        id: this.id,
-        height: this.height,
-        width: this.width,
-        children: this.children,
-        layout: this.layout
-    })
+      type: this.type,
+      id: this.id,
+      height: this.height,
+      width: this.width,
+      children: this.children,
+      layout: this.layout
+    });
   }
 
-  @computed get numChildren() {
-      return this.children.size;
+  @computed
+  get numChildren() {
+    return this.children.size;
   }
 
-  @computed get childrenIds() {
-      return this.children.keys();
+  @computed
+  get childrenIds() {
+    return this.children.keys();
   }
 
   // check whether or not this item is already in the container
-  @action canDropItem(item) {
-      return !this.children.has(item.id);
+  @action
+  canDropItem(item) {
+    return !this.children.has(item.id);
   }
 
-  @action showItemPlaceholder(position, item) {
-      this.placeholder.order = position;
-      this.placeholder.item = item;
+  @action
+  showItemPlaceholder(position, item) {
+    this.placeholder.order = position;
+    this.placeholder.item = item;
 
-      // temporarily set a dropPosition for this container so we know where
-      // to put the new item.
-      this.itemDropPosition = position;
+    // temporarily set a dropPosition for this container so we know where
+    // to put the new item.
+    this.itemDropPosition = position;
   }
 
   // check if the item exists in this container
-  @action existsInContainer(item) {
-      return this.children.has(item.id);
+  @action
+  existsInContainer(item) {
+    return this.children.has(item.id);
   }
 
-  @action reorderItems(item) {
-      this.children.forEach((value, key, map) => {
-          console.log(value);
-      });
+  @action
+  reorderItems(item) {
+    this.children.forEach((value, key, map) => {
+      console.log(value);
+    });
   }
 
   // moves an item into this container
-  @action moveItem(item, oldContainer) {
-      item.order = this.itemDropPosition;
-      this.children.set(item.id, item);
+  @action
+  moveItem(item, oldContainer) {
+    item.order = this.itemDropPosition;
+    this.children.set(item.id, item);
 
-      if (oldContainer) {
-          oldContainer.children.delete(item.id);
-      }
+    if (oldContainer) {
+      oldContainer.children.delete(item.id);
+    }
 
-      this.dropPosition = null;
+    this.dropPosition = null;
   }
 
-  @action toggleLayout() {
+  @action
+  toggleLayout() {
     this.layout = this.layout === 'column' ? 'row' : 'column';
   }
 
-  @action removeItem(item) {
+  @action
+  removeItem(item) {
     this.children.delete(item.id);
   }
 
-  @action increaseFlex() {
+  @action
+  increaseFlex() {
     this.flex++;
   }
 
-  @action increaseWidth() {
-      this.width += 10;
+  @action
+  increaseWidth() {
+    this.width += 10;
   }
 
-  @action decreaseWidth() {
-      this.width -= 10;
+  @action
+  decreaseWidth() {
+    this.width -= 10;
   }
 
-  @action increaseHeight() {
-     if (this.height < 900) {
-        this.height += 100;
-        // console.log(this.store.data, this.parent);
-        // this.store.data.get(this.parent).height = this.height;
-     }
+  @action
+  increaseHeight() {
+    if (this.height < 900) {
+      this.height += 100;
+    }
   }
 
-  @action decreaseHeight() {
-      if (this.height <= 900 && this.height > 100) {
-         this.height -= 100;
-      }
+  @action
+  decreaseHeight() {
+    if (this.height <= 900 && this.height > 100) {
+      this.height -= 100;
+    }
   }
 
-  @action logDetails() {
+  @action
+  logDetails() {
     console.log(toJS(this));
   }
 
-    @action removeContainer() {
-        this.store.removeContainer(this);
-    }
+  @action
+  removeContainer() {
+    this.store.removeContainer(this);
+  }
 
 }
 

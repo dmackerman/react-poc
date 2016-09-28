@@ -36,6 +36,6 @@ const LoadingIndicator = (props) => {
             </div>
         </div>
     );
-}
+};
 
 export default injectSheet(styles)(LoadingIndicator);

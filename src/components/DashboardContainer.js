@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { injectSheet } from '../utils/jss';
 import { DropTarget } from 'react-dnd';
 import { observer } from 'mobx-react';
-import ItemPlaceholder from  './ItemPlaceholder';
+import ItemPlaceholder from './ItemPlaceholder';
 import DashboardContainerControls from './DashboardContainerControls';
 
 const X_THRESHOLD = 100;
@@ -15,42 +15,40 @@ const dashboardContainerTarget = {
   },
 
   hover(props, monitor, component) {
-      let dropX, dropY;
+    let dropX;
+    let dropY;
 
-      const { container } = props;
+    const containerBoundingRect = findDOMNode(component).getBoundingClientRect();
 
-      const { item, oldContainer } = monitor.getItem();
+    const containerMiddleX = Math.round(containerBoundingRect.width / 2);
+    const containerMiddleY = (containerBoundingRect.bottom - containerBoundingRect.top) / 2;
 
-      const containerBoundingRect = findDOMNode(component).getBoundingClientRect();
+    // Determine mouse position
+    const clientOffset = monitor.getClientOffset();
 
-      const containerMiddleX = Math.round(containerBoundingRect.width / 2);
-      const containerMiddleY = (containerBoundingRect.bottom - containerBoundingRect.top) / 2;
+    if ( (clientOffset.y >= containerMiddleY) ) {
+      dropY = 'bottom';
+    } else {
+      dropY = 'top';
+    }
 
-      // Determine mouse position
-      const clientOffset = monitor.getClientOffset();
+    // in the middle
+    if ((clientOffset.x >= containerMiddleX - X_THRESHOLD) && (clientOffset.x <= containerMiddleX + X_THRESHOLD)) {
+      dropX = 'middle';
+    }
 
-      if ( (clientOffset.y >= containerMiddleY )) {
-          dropY = 'bottom'
-      }
-      else {
-          dropY = 'top'
-      }
+    // left side?
+    if (clientOffset.x <= (containerMiddleX - X_THRESHOLD)) {
+      dropX = 'left';
+    }
 
-      // in the middle
-      if ( (clientOffset.x >= containerMiddleX - X_THRESHOLD ) && ( clientOffset.x <= containerMiddleX + X_THRESHOLD ) ) {
-          dropX = 'middle'
-      }
+    // right
+    if (clientOffset.x > (containerMiddleX + X_THRESHOLD)) {
+      dropX = 'right';
+    }
 
-      // left side?
-      if (clientOffset.x <= ( containerMiddleX - X_THRESHOLD )) {
-          dropX = 'left'
-      }
-
-      // right
-      if ( clientOffset.x > ( containerMiddleX + X_THRESHOLD )) {
-          dropX = 'right'
-      }
-    },
+    console.log(dropX, dropY);
+  },
 
   drop(props, monitor, component) {
     const { container } = props;
@@ -61,10 +59,9 @@ const dashboardContainerTarget = {
     }
 
     if (container.existsInContainer(item)) {
-        container.moveItem(item);
-    }
-    else {
-        container.moveItem(item, oldContainer);
+      container.moveItem(item);
+    } else {
+      container.moveItem(item, oldContainer);
     }
 
   }
@@ -74,73 +71,78 @@ const containerWidths = {};
 const containerHeights = {};
 
 [10, 20, 30, 40, 50, 60, 70, 80, 90, 100].forEach(num => {
-    containerWidths[[`width-${num}`]] = { width: `${num}%` };
+  containerWidths[[`width-${num}`]] = {
+    width: `${num}%`
+  };
 });
 
 [100, 200, 300, 400, 500, 600, 700, 800, 900].forEach(height => {
-    containerHeights[[`height-${height}`]] = { height: `${height}px` };
-})
+  containerHeights[[`height-${height}`]] = {
+    height: `${height}px`
+  };
+});
 
 const styles = {
-    container: {
-        display: 'flex',
-        position: 'relative',
-        border: '2px dashed transparent',
-        borderRadius: '5px',
-        transition: 'all 2.s ease',
-        width: '100%',
-        flexDirection: 'row',
-        '&:hover': {
-          borderColor: '#ccc'
-        }
-    },
-    toggleBtn: {
-        position: 'absolute',
-        height: '20px',
-        top: '-10px',
-        right: '0'
-    },
-    column: {
-        flexDirection: 'column'
-    },
-    editting: {
-        borderColor: '#ccc',
-        margin: '25px 0'
-    },
-    ...containerWidths,
-    ...containerHeights
+  container: {
+    display: 'flex',
+    position: 'relative',
+    border: '2px dashed transparent',
+    borderRadius: '5px',
+    transition: 'all 2.s ease',
+    width: '100%',
+    flexDirection: 'row',
+    '&:hover': {
+      borderColor: '#ccc'
+    }
+  },
+  toggleBtn: {
+    position: 'absolute',
+    height: '20px',
+    top: '-10px',
+    right: '0'
+  },
+  column: {
+    flexDirection: 'column'
+  },
+  editting: {
+    borderColor: '#ccc',
+    margin: '25px 0'
+  },
+  ...containerWidths,
+  ...containerHeights
 };
 
 @DropTarget('dashboardItem', dashboardContainerTarget, (connect, monitor) => ({
-    connectDropTarget: connect.dropTarget(),
-    isOver: monitor.isOver(),
-    isOverCurrent: monitor.isOver(),
-    canDrop: monitor.canDrop(),
-    itemType: monitor.getItemType()
+  connectDropTarget: connect.dropTarget(),
+  isOver: monitor.isOver(),
+  isOverCurrent: monitor.isOver(),
+  canDrop: monitor.canDrop(),
+  itemType: monitor.getItemType()
 }))
 @injectSheet(styles)
-@observer class DashboardContainer extends React.Component {
+@observer
+class DashboardContainer extends React.Component {
 
-    render() {
-        const { container, store, children, sheet: {classes} } = this.props;
-        const { isOver, connectDropTarget } = this.props;
+  render() {
+    const { container, store, children, sheet:{ classes } } = this.props;
+    const { isOver, connectDropTarget } = this.props;
 
-        const containerClass = classNames({
-          [classes.container]: true,
-          [classes[`height-${container.height}`]]: true,
-          [classes[`width-${container.width}`]]: true,
-          [classes.column]: container.layout === 'column',
-          [classes.editting]: store.editting
-        });
+    const containerClass = classNames({
+      [classes.container]: true,
+      [classes[`height-${container.height}`]]: true,
+      [classes[`width-${container.width}`]]: true,
+      [classes.column]: container.layout === 'column',
+      [classes.editting]: store.editting
+    });
 
-        return connectDropTarget(
-            <div className={containerClass}>
-                { store.editting ? <DashboardContainerControls container={container} />: '' }
-                { children }
-                { isOver ? <ItemPlaceholder data={container.placeholder} /> : '' }
-            </div>
-        )
-    }
+    return connectDropTarget(
+      <div className={containerClass}>
+        {store.editting ? <DashboardContainerControls container={container} /> : ''}
+        {children}
+        {isOver ? <ItemPlaceholder data={container.placeholder} /> : ''}
+      </div>
+    );
+  }
 }
 
 

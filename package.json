@@ -25,12 +25,15 @@
     "cross-spawn": "4.0.0",
     "css-loader": "0.24.0",
     "detect-port": "1.0.0",
-    "eslint": "3.5.0",
+    "esformatter-curly": "0.0.2",
+    "esformatter-jsx": "^7.0.1",
+    "eslint": "^3.6.1",
+    "eslint-config-airbnb": "^12.0.0",
     "eslint-loader": "1.5.0",
     "eslint-plugin-flowtype": "2.18.1",
-    "eslint-plugin-import": "1.12.0",
-    "eslint-plugin-jsx-a11y": "2.2.2",
-    "eslint-plugin-react": "5.2.2",
+    "eslint-plugin-import": "^1.16.0",
+    "eslint-plugin-jsx-a11y": "^2.2.2",
+    "eslint-plugin-react": "^6.3.0",
     "extract-text-webpack-plugin": "1.0.1",
     "file-loader": "0.9.0",
     "filesize": "3.3.0",
@@ -58,7 +61,6 @@
     "whatwg-fetch": "1.0.0"
   },
   "dependencies": {
-    "ace-css": "^1.1.0",
     "classnames": "^2.2.5",
     "jss-camel-case": "^2.0.0",
     "jss-extend": "^2.0.1",
@@ -107,5 +109,41 @@
   },
   "eslintConfig": {
     "extends": "./config/eslint.js"
+  },
+  "esformatter": {
+    "plugins": [
+      "esformatter-braces",
+      "esformatter-jsx"
+    ],
+    "whiteSpace": {
+      "after": {
+        "ObjectPatternOpeningBrace": 1,
+        "ObjectPatternClosingBrace": 0,
+        "ObjectPatternComma": 1
+      },
+      "before": {
+        "ObjectPatternOpeningBrace": 0,
+        "ObjectPatternClosingBrace": 1,
+        "ObjectPatternComma": 0
+      }
+    },
+    "jsx": {
+      "formatJSX": true,
+      "attrsOnSameLineAsTag": false,
+      "maxAttrsOnTag": 3,
+      "firstAttributeOnSameLine": true,
+      "formatJSXExpressions": true,
+      "JSXExpressionsSingleLine": true,
+      "alignWithFirstAttribute": false,
+      "spaceInJSXExpressionContainers": "",
+      "removeSpaceBeforeClosingJSX": false,
+      "htmlOptions": {
+        "brace_style": "collapse",
+        "indent_char": " ",
+        "indent_size": 2,
+        "max_preserve_newlines": 2,
+        "preserve_newlines": true
+      }
+    }
   }
 }

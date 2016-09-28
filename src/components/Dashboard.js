@@ -7,78 +7,74 @@ import DashboardStore from '../store/DashboardStore';
 
 const dashboardNotInContainerTarget = {
   canDrop(props, monitor) {
-    return monitor.isOver({ shallow: true })
+    return monitor.isOver({
+      shallow: true
+    });
   },
 
   hover(props, monitor, component) {
-    const isOver = monitor.isOver({ shallow: true })
-    // console.log(isOver);
-
+    const isOver = monitor.isOver({
+      shallow: true
+    });
+    console.log(isOver);
   },
 
+  // if this is the case, we have to create a new container.
   drop(props, monitor, component) {
     const { item, oldContainer } = monitor.getItem();
-    // if this is the case, we have to create a new container.
     const newContainer = DashboardStore.createContainer();
     newContainer.moveItem(item, oldContainer);
   }
 };
 
 @DropTarget('dashboardItem', dashboardNotInContainerTarget, (connect, monitor) => ({
-    connectDropTarget: connect.dropTarget(),
-    isOver: monitor.isOver(),
-    isOverCurrent: monitor.isOver(),
-    canDrop: monitor.canDrop(),
-    itemType: monitor.getItemType()
+  connectDropTarget: connect.dropTarget(),
+  isOver: monitor.isOver(),
+  isOverCurrent: monitor.isOver(),
+  canDrop: monitor.canDrop(),
+  itemType: monitor.getItemType()
 }))
-@observer class Dashboard extends Component {
-    constructor(props) {
-      super(props);
-      this.renderContainer = this.renderContainer.bind(this);
-    }
+@observer
+class Dashboard extends Component {
+  constructor(props) {
+    super(props);
+    this.renderContainer = this.renderContainer.bind(this);
+  }
 
-    renderContainer(container) {
-        return (
-            <DashboardContainer
-                key={container.id}
+  renderContainer(container) {
+    return (
+      <DashboardContainer key={container.id} store={DashboardStore} container={container}>
+        {this.renderChildren(container)}
+      </DashboardContainer>
+      );
+  }
+
+  renderChildren(container) {
+    const children = container.children.values();
+    return children.map(child => {
+      if (child.children) {
+        return this.renderContainer(child);
+      }
+      return (<DashboardItem key={child.id}
                 store={DashboardStore}
-                container={container}>
-                    {this.renderChildren(container)}
-            </DashboardContainer>
-        );
-    }
+                container={container}
+                item={child} />);
+    });
+  }
 
-    renderChildren(container) {
-        const children = container.children.values();
-        return children.map(child => {
-            if (child.children) {
-                return this.renderContainer(child);
-            }
-            return (
-                <DashboardItem
-                    key={child.id}
-                    store={DashboardStore}
-                    container={container}
-                    item={child}
-                />
-            )
-        });
-    }
-
-    render() {
-        const { connectDropTarget } = this.props;
-console.log('Dashboard render');
-        return (
-            connectDropTarget(
-            <div>
-                <Page>
-                    {DashboardStore.data.values().map((val, key, map) => {
-                        return this.renderContainer(val);
-                    })}
-                </Page>
-            </div>)
-        )
-    }
+  render() {
+    const { connectDropTarget } = this.props;
+    console.log('Dashboard render');
+    return (connectDropTarget(
+      <div>
+        <Page>
+          {DashboardStore.data.values().map((val, key, map) => {
+             return this.renderContainer(val);
+           })}
+        </Page>
+      </div>
+    ));
+  }
 
 }
 
