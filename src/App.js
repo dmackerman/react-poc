@@ -23,7 +23,8 @@ class App extends Component {
           success: '#5AC461',
           error: '#D3483E',
           white: '#ffffff',
-          gray: '#5A5C6D'
+          gray: '#5A5C6D',
+          blue: '#4C9ADE'
         },
         fontSizes: [64, 48, 24, 18, 16, 13, 12],
       }

@@ -1,24 +1,25 @@
 import React, { Component, PropTypes } from 'react';
 import { ButtonOutline } from 'rebass';
+import { Flex } from 'reflexbox';
 
 class DashboardItemControls extends Component {
 
   static propTypes = {
       item: PropTypes.object.isRequired,
-      container: PropTypes.object.isRequired
+      store: PropTypes.object
   }
 
   render() {
-    const { item, container } = this.props;
+    const { item, store } = this.props;
     return (
-      <div className="controls">
-        <ButtonOutline theme="primary" mr={1} onClick={() => item.toggleEditItem()}>
+      <Flex p={2}>
+        <ButtonOutline theme="primary" mr={1} onClick={(e) => item.toggleEditItem(e)}>
           Edit
         </ButtonOutline>
-        <ButtonOutline theme="error" mr={1} onClick={() => item.removeItem(container)}>
+        <ButtonOutline theme="error" mr={1} onClick={() => store.removeItem(item)}>
           Delete
         </ButtonOutline>
-      </div>
+      </Flex>
     );
   }
 }

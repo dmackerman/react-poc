@@ -3,13 +3,7 @@ import { injectSheet } from '../utils/jss';
 
 const styles = {
   page: {
-    display: ' flex',
-    flexDirection: ' row',
-    flexWrap: ' wrap',
-    overflowY: ' auto',
-    height: ' calc(100vh)',
     paddingTop: ' 85px',
-    flexShrink: ' 0',
   }
 };
 
@@ -26,7 +20,7 @@ class Page extends Component {
   render() {
     const { children } = this.props;
     const { classes } = this.props.sheet;
-    
+
     return (
       <div className={classes.page}>
         {children}

@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import { injectSheet } from '../utils/jss';
 import { Flex } from 'reflexbox';
 import { Button, ButtonOutline, Space } from 'rebass';
-import Icon from 'react-geomicons';
+// import Icon from 'react-geomicons';
 
 const style = {
   toolbar: {
@@ -26,7 +26,7 @@ const DashboardToolbar = ({ store, sheet }) => {
 
   return (
     <div className={classes.toolbar}>
-      <Flex align="center">
+      <Flex align="flex-start">
         <Link to="/">
           <Button backgroundColor="transparent" color="white" mx={1}>
             Dashboard
@@ -34,13 +34,19 @@ const DashboardToolbar = ({ store, sheet }) => {
         </Link>
         <Button
           mx={1}
+          theme="success"
+          color="white"
+          onClick={() => store.addNewItem()}>
+          Add New Item
+        </Button>
+        <Button
+          mx={1}
           theme={editting ? 'success' : 'secondary'}
           color="white"
           onClick={() => store.toggleEditMode()}>
-          <Icon name={editting ? 'check' : 'compose'} />
           {editText}
         </Button>
-        <Space px={2} />
+        <Space auto />
         <ButtonOutline mx={1} color="white" onClick={() => store.logStoreData()}>
           Log Serialized Data
         </ButtonOutline>

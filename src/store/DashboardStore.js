@@ -1,6 +1,6 @@
 import { observable, action, map, toJS, computed } from 'mobx';
 import defaultDashboardHashData from '../data/dashboard-hash.json';
-import { Container } from '../models/';
+import { Item } from '../models/';
 
 class DashboardStore {
   @observable data;
@@ -15,69 +15,80 @@ class DashboardStore {
 
   generateData(source) {
     const dataMap = map();
-    Object.keys(source).forEach(containerId => {
-      const container = source[containerId];
-      dataMap.set(containerId, new Container(container, this));
+    Object.keys(source).forEach(itemId => {
+      const item = source[itemId];
+      dataMap.set(itemId, new Item(item, this));
     });
 
     this.data = dataMap;
   }
 
-  removeContainer(container) {
-    console.log(container);
-    // this.data.delete(container.id);
+  saveLayout(layout) {
+    console.log('save layout', ...layout);
+    const data = toJS(this.data);
+
+    layout.forEach(itemLayout => {
+      this.data.get(itemLayout.i).x = itemLayout.x;
+      this.data.get(itemLayout.i).y = itemLayout.y;
+      this.data.get(itemLayout.i).w = itemLayout.w;
+      this.data.get(itemLayout.i).h = itemLayout.h;
+      let item = toJS(this.data.get(itemLayout.i));
+      const { x, y, w, h, isResizable, isDraggable } = itemLayout;
+      data[itemLayout.i] = { ...item, x, y, w, h, isResizable, isDraggable };
+    });
+
+    this.saveDashboardState(data);
   }
 
-  createContainer() {
-    const container = new Container();
-    this.data.set(container.id, container);
-    return container;
+  saveDashboardState(data) {
+    return localStorage.setItem('data', JSON.stringify(data));
   }
 
-  @computed
-  get numContainers() {
-    return this.data.size;
+  @action addNewItem() {
+    const item = new Item({
+      x: 1,
+      y: 2,
+      w: 5,
+      h: 3,
+      minH: 2,
+      static: false
+    });
+    this.data.set(item.id, item);
   }
 
-  @computed
-  get dataJSON() {
+  @action toggleEditMode() {
+    this.editting = !this.editting;
+    this.data.forEach(item => item.toggleDragAndResize());
+  }
+
+  @action removeItem(item) {
+    this.data.delete(item.id);
+  }
+
+  @computed get dataJSON() {
     var json = {};
     this.data.forEach((value, key, map) => {
-      json[key] = value.data;
+      json[key] = value;
     });
     return JSON.stringify(json, null, 2);
   }
 
-  @computed
-  get storedDashboardData() {
-    return JSON.parse(localStorage.getItem('data'));
+  @computed get storedDashboardData() {
+    let data;
+    try {
+      data = JSON.parse(global.localStorage.getItem('data')) || {};
+    } catch(e) {/*Ignore*/}
+    return data;
   }
 
-  @action
-  resetToDefaultData() {
+  @action resetToDefaultData() {
     this.generateData(defaultDashboardHashData);
     this.dirty = false;
     this.editting = false;
     localStorage.removeItem('data');
   }
 
-  // saves the current Dashboard state to localStorage.
-  @action
-  saveDashboardState() {
-    return localStorage.setItem('data', this.dataJSON);
-  }
-
-  @action
-  toggleEditMode() {
-    this.editting = !this.editting;
-    if (!this.editting) {
-      console.log(toJS(this.data));
-      this.saveDashboardState();
-    }
-  }
-
-  @action
-  logStoreData() {
+  @action logStoreData() {
     console.log(this.dataJSON, null, 4);
   }
 }

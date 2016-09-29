@@ -1,87 +1,64 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
 import { observer } from 'mobx-react';
-import { DragDropContext, DropTarget } from 'react-dnd';
-import HTML5Backend from 'react-dnd-html5-backend';
-import { Page, DashboardContainer, DashboardItem } from './';
+import { Page, DashboardItem } from './';
 import DashboardStore from '../store/DashboardStore';
 
-const dashboardNotInContainerTarget = {
-  canDrop(props, monitor) {
-    return monitor.isOver({
-      shallow: true
-    });
-  },
+// import ReactGridLayout from 'react-grid-layout';
+// const ResponsiveReactGridLayout = WidthProvider(ReactGridLayout);
+import {Responsive, WidthProvider} from 'react-grid-layout';
+const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
-  // hover(props, monitor, component) {
-  //   const isOver = monitor.isOver({
-  //     shallow: true
-  //   });
-  //   console.log(isOver);
-  // },
-
-  // if this is the case, we have to create a new container.
-  drop(props, monitor, component) {
-    const { item, oldContainer } = monitor.getItem();
-    const newContainer = DashboardStore.createContainer();
-    newContainer.moveItem(item, oldContainer);
-  }
-};
-
-@DropTarget('dashboardItem', dashboardNotInContainerTarget, (connect, monitor) => ({
-  connectDropTarget: connect.dropTarget(),
-  isOver: monitor.isOver(),
-  isOverCurrent: monitor.isOver(),
-  canDrop: monitor.canDrop(),
-  itemType: monitor.getItemType()
-}))
 @observer
 class Dashboard extends Component {
-  static propTypes = {
-    connectDropTarget: PropTypes.func.isRequired
+
+  static defaultProps = {
+      className: "layout",
+      // cols: 12,
+      rowHeight: 100,
+      // cols: { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 },
+      cols: { lg: 12 },
+      breakpoints: { lg: 1200 }
   }
 
-  constructor(props) {
-    super(props);
-    this.renderContainer = this.renderContainer.bind(this);
-  }
-
-  renderContainer(container) {
-    return (
-      <DashboardContainer key={container.id} store={DashboardStore} container={container}>
-        {this.renderChildren(container)}
-      </DashboardContainer>
-      );
-  }
-
-  renderChildren(container) {
-    const children = container.children.values();
-    return children.map(child => {
-      if (child.children) {
-        return this.renderContainer(child);
-      }
-      return (
-        <DashboardItem
-          key={child.id}
-          store={DashboardStore}
-          container={container}
-          item={child} />
-        );
-    });
+  onLayoutChange(layout) {
+    DashboardStore.saveLayout(layout);
   }
 
   render() {
-    const { connectDropTarget } = this.props;
-    return (connectDropTarget(
+    const itemLayout = DashboardStore.data.values().map((val, key, map) => {
+      return val.layout;
+    });
+
+    // @TODO maybe figure out real responsive layouts?
+    const layouts = { 'lg': itemLayout };
+
+    console.log('layout', layouts);
+
+    const items = DashboardStore.data.values().map((val, index) => {
+      const itemId = val.id;
+      return (
+        <div key={itemId}>
+          <DashboardItem store={DashboardStore} item={val} />
+        </div>
+      );
+    });
+
+    return (
       <div>
         <Page>
-          {DashboardStore.data.values().map((val, key, map) => {
-             return this.renderContainer(val);
-           })}
+          {/* <EditItemModal open={isEditting} item={this.props.item} toggle={() => this.props.item.toggleEditItem()} /> */}
+          <ResponsiveReactGridLayout
+            {...this.props}
+            layouts={layouts}
+            onDragStart={this.onDragStart}
+            onLayoutChange={this.onLayoutChange}>
+            {items}
+          </ResponsiveReactGridLayout>
         </Page>
       </div>
-    ));
+      );
   }
 
 }
 
-export default DragDropContext(HTML5Backend)(observer(Dashboard));
+export default Dashboard;
