@@ -24,7 +24,9 @@ export class DashboardItem extends Component {
     item: PropTypes.shape({
       id: PropTypes.string.isRequired,
       loading: PropTypes.bool.isRequired,
-      panel_title: PropTypes.string.isRequired
+      panel_title: PropTypes.string.isRequired,
+      toggleEditMenu: PropTypes.func,
+      showEditMenu: PropTypes.bool
     }),
     editting: PropTypes.bool,
     classes: PropTypes.object
@@ -35,8 +37,7 @@ export class DashboardItem extends Component {
     const { editting } = this.props.store;
     const { classes } = this.props.sheet;
     const { item } = this.props;
-    const { panel_title, id, loading, layout, showEditMenu } = item;
-    console.log(showEditMenu);
+    const { panel_title, id, loading, showEditMenu } = this.props.item;
 
     const dashboardItemClass = classNames({
       [classes.item]: true,
@@ -47,7 +48,7 @@ export class DashboardItem extends Component {
 
     return (
       <div className={dashboardItemClass}>
-        <Flex flexColumn flexAuto style={{ height: '100%' }}>
+        <Flex flexColumn flexAuto style={{ height: '100%' }} data-panel-id={id}>
           {isLoading}
           <Toolbar backgroundColor="transparent" color="black">
             <NavItem is="h1" color="blue" style={{ fontSize: 16 }}>

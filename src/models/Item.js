@@ -24,7 +24,11 @@ class Item {
     this.y = json.y;
     this.w = json.w;
     this.h = json.h;
+    this.isResizable = json.isResizable;
+    this.isDraggable = json.isDraggable;
     this.minH = 3;
+
+    console.log('new item created', toJS(this));
 
     setTimeout(() => {
       this.loading = false;
@@ -35,7 +39,7 @@ class Item {
     this.showEditMenu = !this.showEditMenu;
   }
 
-  @action toggleDragAndResize() {
+  @action toggleDragAndResize(value) {
     this.isResizable = !this.isResizable;
     this.isDraggable = !this.isDraggable;
   }

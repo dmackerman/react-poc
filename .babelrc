@@ -1,14 +1,26 @@
 {
-  "presets": [
-    "es2015",
-    "stage-1",
-    "react",
-    "react-hmre"
-  ],
-  "plugins": [
-    "transform-decorators-legacy",
-    "transform-class-properties",
-    "transform-object-rest-spread",
-    "transform-regenerator"
-  ]
+	"presets": [
+		"es2015",
+		"stage-1",
+		"react"
+	],
+	"plugins": [
+		"transform-decorators-legacy",
+		"transform-class-properties",
+		"transform-object-rest-spread",
+		"transform-regenerator"
+	],
+	"env": {
+		"development": {
+			"plugins": [
+				["react-transform", {
+					"transforms": [{
+						"transform": "react-transform-hmr",
+						"imports": ["react"],
+						"locals": ["module"]
+					}]
+				}]
+			]
+		}
+	}
 }

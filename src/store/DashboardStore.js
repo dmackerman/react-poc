@@ -24,7 +24,7 @@ class DashboardStore {
   }
 
   saveLayout(layout) {
-    console.log('save layout', ...layout);
+    // console.log('save layout', ...layout);
     const data = toJS(this.data);
 
     layout.forEach(itemLayout => {
@@ -51,7 +51,8 @@ class DashboardStore {
       w: 5,
       h: 3,
       minH: 2,
-      static: false
+      isResizable: this.editting ? true : false,
+      isDraggable: this.editting ? true : false
     });
     this.data.set(item.id, item);
   }
