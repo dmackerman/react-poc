@@ -10,11 +10,14 @@ class DashboardStore {
 
   @observable isResizable = false;
   @observable isDraggable = false;
+
   @observable verticalCompact = true;
 
   constructor() {
     const dashboardData = this.storedDashboardData || defaultDashboardHashData;
+    this.verticalCompact = this.storedDashboardSettings.verticalCompact;
     this.generateData(dashboardData);
+    console.log(this);
   }
 
   generateData(source) {
@@ -45,6 +48,7 @@ class DashboardStore {
   }
 
   saveDashboardState(data) {
+    localStorage.setItem('settings', JSON.stringify(this));
     return localStorage.setItem('data', JSON.stringify(data));
   }
 
@@ -60,13 +64,15 @@ class DashboardStore {
 
   @action toggleVerticalCompact() {
     this.verticalCompact = !this.verticalCompact;
+    let settings = this.storedDashboardSettings;
+    settings.verticalCompact = this.verticalCompact;
+    localStorage.setItem('settings', JSON.stringify(settings));
   }
 
   @action toggleEditMode() {
     this.editing = !this.editing;
     this.isResizable = !this.isResizable;
     this.isDraggable = !this.isDraggable;
-    // this.data.forEach(item => item.toggleDragAndResize());
   }
 
   @action removeItem(item) {
@@ -81,11 +87,19 @@ class DashboardStore {
     return JSON.stringify(json, null, 2);
   }
 
+  @computed get storedDashboardSettings() {
+    let data;
+    try {
+      data = JSON.parse(global.localStorage.getItem('settings')) || {};
+    } catch(e) {}
+    return data;
+  }
+
   @computed get storedDashboardData() {
     let data;
     try {
       data = JSON.parse(global.localStorage.getItem('data')) || {};
-    } catch(e) {/*Ignore*/}
+    } catch(e) {}
     return data;
   }
 

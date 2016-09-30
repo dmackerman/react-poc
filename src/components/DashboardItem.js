@@ -64,9 +64,6 @@ export class DashboardItem extends Component {
                 <Arrow direction="down" />
               </Button>
               <DropdownMenu open={showEditMenu} onDismiss={() => this.props.item.toggleEditMenu()}>
-                <NavItem is="a" theme="primary" onClick={(e) => item.toggleEditItem(e)}>
-                  Edit
-                </NavItem>
                 <NavItem is="a" theme="error" onClick={() => store.removeItem(item)}>
                   Delete
                 </NavItem>

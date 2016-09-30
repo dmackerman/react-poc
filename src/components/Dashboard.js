@@ -21,7 +21,6 @@ class Dashboard extends Component {
   }
 
   render() {
-    console.log(this);
     const itemLayout = DashboardStore.data.values().map((val, key, map) => {
       return val.layout;
     });

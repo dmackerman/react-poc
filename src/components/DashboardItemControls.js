@@ -13,9 +13,9 @@ class DashboardItemControls extends Component {
     const { item, store } = this.props;
     return (
       <Flex p={2}>
-        <ButtonOutline theme="primary" mr={1} onClick={(e) => item.toggleEditItem(e)}>
+        {/* <ButtonOutline theme="primary" mr={1} onClick={(e) => item.toggleEditItem(e)}>
           Edit
-        </ButtonOutline>
+        </ButtonOutline> */}
         <ButtonOutline theme="error" mr={1} onClick={() => store.removeItem(item)}>
           Delete
         </ButtonOutline>
