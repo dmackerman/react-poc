@@ -11,9 +11,7 @@ class Item {
   @observable w;
   @observable h;
 
-  @observable isDraggable = false;
-  @observable isResizable = false;
-  @observable isEditting = false;
+  @observable isEditing = false;
   @observable showEditMenu = false;
 
   constructor(json) {
@@ -24,9 +22,10 @@ class Item {
     this.y = json.y;
     this.w = json.w;
     this.h = json.h;
-    this.isResizable = json.isResizable;
-    this.isDraggable = json.isDraggable;
-    this.minH = 3;
+    // this.isResizable = json.isResizable;
+    // this.isDraggable = json.isDraggable;
+    this.minH = 2;
+    this.minW = 3;
 
     console.log('new item created', toJS(this));
 
@@ -39,11 +38,6 @@ class Item {
     this.showEditMenu = !this.showEditMenu;
   }
 
-  @action toggleDragAndResize(value) {
-    this.isResizable = !this.isResizable;
-    this.isDraggable = !this.isDraggable;
-  }
-
   @computed get layout() {
     return {
       x: this.x,
@@ -51,19 +45,16 @@ class Item {
       w: this.w,
       h: this.h,
       i: this.id.toString(),
-      isDraggable: this.isDraggable,
-      isResizable: this.isResizable,
-      minH: this.minH
+      minH: this.minH,
+      minW: this.minW
     };
   }
 
-
   @action toggleEditItem(e) {
-    this.isEditting = !this.isEditting;
+    this.isEditing = !this.isEditing;
   }
 
-  @action
-  logDetails(e) {
+  @action logDetails(e) {
     console.log(toJS(this));
   }
 }

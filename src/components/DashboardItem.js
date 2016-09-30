@@ -28,13 +28,13 @@ export class DashboardItem extends Component {
       toggleEditMenu: PropTypes.func,
       showEditMenu: PropTypes.bool
     }),
-    editting: PropTypes.bool,
+    editing: PropTypes.bool,
     classes: PropTypes.object
   }
 
   render() {
     const { store } = this.props;
-    const { editting } = this.props.store;
+    const { editing } = this.props.store;
     const { classes } = this.props.sheet;
     const { item } = this.props;
     const { panel_title, id, loading, showEditMenu } = this.props.item;
@@ -44,7 +44,7 @@ export class DashboardItem extends Component {
     });
 
     const isLoading = loading ? <LoadingIndicator /> : '';
-    const itemControls = editting ? <DashboardItemControls item={this.props.item} store={store} /> : '';
+    const itemControls = editing ? <DashboardItemControls item={this.props.item} store={store} /> : '';
 
     return (
       <div className={dashboardItemClass}>

@@ -3,7 +3,7 @@ import { observer } from "mobx-react";
 import { Link } from 'react-router';
 import { injectSheet } from '../utils/jss';
 import { Flex } from 'reflexbox';
-import { Button, ButtonOutline, Space } from 'rebass';
+import { Button, ButtonOutline, Space, Checkbox } from 'rebass';
 // import Icon from 'react-geomicons';
 
 const style = {
@@ -20,13 +20,13 @@ const style = {
 };
 
 const DashboardToolbar = ({ store, sheet }) => {
-  const { editting } = store;
+  const { editing } = store;
   const { classes } = sheet;
-  const editText = editting ? 'Done Editting' : 'Enter Edit Mode';
+  const editText = editing ? 'Done Editing' : 'Enter Edit Mode';
 
   return (
     <div className={classes.toolbar}>
-      <Flex align="flex-start">
+      <Flex align="baseline">
         <Link to="/">
           <Button backgroundColor="transparent" color="white" mx={1}>
             Dashboard
@@ -41,11 +41,21 @@ const DashboardToolbar = ({ store, sheet }) => {
         </Button>
         <Button
           mx={1}
-          theme={editting ? 'success' : 'secondary'}
+          theme={editing ? 'success' : 'secondary'}
           color="white"
           onClick={() => store.toggleEditMode()}>
           {editText}
         </Button>
+        { editing && <Checkbox
+          mx={1}
+          label="Compact Layout Vertically?"
+          name="compact_vertically"
+          theme="success"
+          checked={store.verticalCompact}
+          value={store.verticalCompact}
+          onChange={() => store.toggleVerticalCompact()}
+        />}
+
         <Space auto />
         <ButtonOutline mx={1} color="white" onClick={() => store.logStoreData()}>
           Log Serialized Data

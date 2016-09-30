@@ -2,10 +2,7 @@ import React, { Component } from 'react';
 import { observer } from 'mobx-react';
 import { Page, DashboardItem } from './';
 import DashboardStore from '../store/DashboardStore';
-
-// import ReactGridLayout from 'react-grid-layout';
-// const ResponsiveReactGridLayout = WidthProvider(ReactGridLayout);
-import {Responsive, WidthProvider} from 'react-grid-layout';
+import { Responsive, WidthProvider } from 'react-grid-layout';
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 @observer
@@ -13,11 +10,10 @@ class Dashboard extends Component {
 
   static defaultProps = {
       className: "layout",
-      // cols: 12,
       rowHeight: 100,
-      // cols: { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 },
       cols: { lg: 12 },
-      breakpoints: { lg: 1200 }
+      breakpoints: { lg: 1200 },
+      verticalCompact: false
   }
 
   onLayoutChange(layout) {
@@ -25,15 +21,13 @@ class Dashboard extends Component {
   }
 
   render() {
+    console.log(this);
     const itemLayout = DashboardStore.data.values().map((val, key, map) => {
       return val.layout;
     });
 
     // @TODO maybe figure out real responsive layouts?
     const layouts = { 'lg': itemLayout };
-
-    console.log('layout', layouts);
-
     const items = DashboardStore.data.values().map((val, index) => {
       const itemId = val.id;
       return (
@@ -43,13 +37,18 @@ class Dashboard extends Component {
       );
     });
 
+    const { isDraggable, isResizable, verticalCompact } = DashboardStore;
+
     return (
       <div>
         <Page>
-          {/* <EditItemModal open={isEditting} item={this.props.item} toggle={() => this.props.item.toggleEditItem()} /> */}
+          {/* <EditItemModal open={isEditing} item={this.props.item} toggle={() => this.props.item.toggleEditItem()} /> */}
           <ResponsiveReactGridLayout
             {...this.props}
             layouts={layouts}
+            isDraggable={isDraggable}
+            isResizable={isResizable}
+            verticalCompact={verticalCompact}
             onDragStart={this.onDragStart}
             onLayoutChange={this.onLayoutChange}>
             {items}

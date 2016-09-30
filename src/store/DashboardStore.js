@@ -5,8 +5,12 @@ import { Item } from '../models/';
 class DashboardStore {
   @observable data;
   @observable saving = false
-  @observable editting = false;
+  @observable editing = false;
   @observable dirty = false;
+
+  @observable isResizable = false;
+  @observable isDraggable = false;
+  @observable verticalCompact = true;
 
   constructor() {
     const dashboardData = this.storedDashboardData || defaultDashboardHashData;
@@ -46,20 +50,23 @@ class DashboardStore {
 
   @action addNewItem() {
     const item = new Item({
-      x: 1,
-      y: 2,
+      x: 0,
+      y: 0,
       w: 5,
-      h: 3,
-      minH: 2,
-      isResizable: this.editting ? true : false,
-      isDraggable: this.editting ? true : false
+      h: 3
     });
     this.data.set(item.id, item);
   }
 
+  @action toggleVerticalCompact() {
+    this.verticalCompact = !this.verticalCompact;
+  }
+
   @action toggleEditMode() {
-    this.editting = !this.editting;
-    this.data.forEach(item => item.toggleDragAndResize());
+    this.editing = !this.editing;
+    this.isResizable = !this.isResizable;
+    this.isDraggable = !this.isDraggable;
+    // this.data.forEach(item => item.toggleDragAndResize());
   }
 
   @action removeItem(item) {
@@ -85,7 +92,7 @@ class DashboardStore {
   @action resetToDefaultData() {
     this.generateData(defaultDashboardHashData);
     this.dirty = false;
-    this.editting = false;
+    this.editing = false;
     localStorage.removeItem('data');
   }
 
